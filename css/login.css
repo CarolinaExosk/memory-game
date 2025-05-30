@@ -23,9 +23,9 @@
     text-align: center;
     margin-bottom: 20px;
     text-shadow:
-            0 0 8px #a30000,
-            0 0 15px #ff3b3b,
-            0 0 20px #ff5c5c;
+            0 0 8px #5e0000,
+            0 0 15px #ff1f1f,
+            0 0 20px #fa4242;
     user-select: none;
 }
 
@@ -56,12 +56,6 @@ body {
     align-items: center;
     justify-content: center;
 
-    border: 10px solid transparent;
-    border-image-source: url('../imagens/bordergothic.png');
-    border-image-slice: 80 fill;
-    border-image-width: 10px;
-    border-image-repeat: stretch;
-
     padding: 20px;
     max-width: 400px;
     width: 100%;
@@ -84,7 +78,7 @@ body {
     padding: 10px;
     margin-bottom: 15px;
 
-    border: 1px solid #9e2424;
+    border: 1px solid #8f1a1a;
     border-radius: 4px;
 
     background: rgba(40, 20, 20, 0.95);
@@ -100,8 +94,11 @@ body {
     border-color: #ff4c4c;
     outline: none;
     transform: scale(1.02);
+    box-shadow:
+            0 0 4px #ff4c4c,
+            0 0 8px #ff4c4c,
+            0 0 12px #ff1a1a;
 }
-
 .login__btn {
     width: 20%;
     padding: 6px 0;
@@ -133,23 +130,7 @@ body {
             inset 0 0 20px #ff4c4c;
     transform: scale(1.07);
 }
-.inner-rectangle {
-    position: absolute;
-    top: 1px;
-    left: 40px;
-    right: 39px;
-    bottom: 0;
 
-    background-color: rgb(0, 0, 0);
-    border-radius: 4px;
-    z-index: -1;
-
-    box-shadow:
-            0 0 8px #e0e0e0,
-            0 0 15px #989898,
-            0 0 25px #858383,
-            0 0 40px #f8da7a;
-}
 @media (max-width: 480px) {
     .main-title {
         font-size: 2.8rem;

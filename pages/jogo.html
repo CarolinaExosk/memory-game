@@ -12,26 +12,22 @@
 </head>
 <body>
 <video autoplay muted loop id="bg-video">
-    <source src="../imagens/logindarkbackground.mp4" type="video/mp4">
+    <source src="../imagens/videopagjogo.mp4" type="video/mp4">
 </video>
 <div class="overlay"></div>
 
 <div class="game-container">
     <header class="game-header">
-        <h1 class="game-title">Memory Cards</h1>
+        <h1 class="game-title">Memory Game</h1>
         <span class="player-name">Player: <strong id="playerName"></strong></span>
     </header>
 </div>
 
-<div class="card"></div>
-<div class="card"></div>
-<div class="card"></div>
-<div class="card"></div>
+<div class="grid">
+</div>
 
 
-<script>
-    const playerName = localStorage.getItem('Exosk') || 'Convidado';
-    document.getElementById('playerName').textContent = playerName;
-</script>
+
+<script src="../js/jogo.js"></script>
 </body>
 </html>

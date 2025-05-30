@@ -1,11 +1,9 @@
 body {
-    margin: 0;
-    background-color: #0a0a0a;
     font-family: 'Metamorphous', serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: 50vh;
 }
 
 #bg-video {
@@ -22,7 +20,7 @@ body {
     top: 0; left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.6);
+    background-color: rgba(0, 0, 0, 0.41);
     z-index: -1;
 }
 
@@ -39,21 +37,29 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.55);
     padding: 20px 0;
     text-align: center;
     z-index: 10;
-    border-bottom: 2px solid #ff3b3b;
-    box-shadow: 0 4px 10px rgba(255, 59, 59, 0.3);
+    box-shadow: 0 4px 10px rgb(0, 0, 0);
 }
 
+.game-header::after {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 1px;
+    margin: 10px auto 0;
+    background: linear-gradient(to right, transparent, #6500ff, transparent);
+    opacity: 0.8;
+}
 .game-title {
     font-size: 3rem;
-    color: #f44242;
+    color: #6500ff;
     text-shadow:
-            0 0 8px #a30000,
-            0 0 15px #ff3b3b,
-            0 0 20px #ff5c5c;
+            0 0 8px #ae04ff,
+            0 0 15px rgba(62, 0, 255, 0.11),
+            0 0 20px rgba(114, 36, 129, 0.34);
     margin: 0;
 }
 
@@ -67,18 +73,51 @@ body {
 
 .grid {
     display: grid;
-    grid-template-columns: 200px;
+    grid-template-columns: repeat(6, 1fr);
     width: 100%;
     max-width: 800px;
     gap: 15px;
+    margin: 100px auto;
 }
 
 .card{
+    aspect-ratio: 3/4;
     width: 100%;
-    height: 200px;
-    background-color: lightgray;
+    background-color: #2f2e2e;
+    border-radius: 10px;
+    position: relative;
+    transition: all 500ms ease;
+    transform-style: preserve-3d;
 }
 
+.face{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    background-position: center;
+    backface-visibility: hidden;
+    border-radius: 7px;
+    background-size: cover;
+    box-shadow:
+            0 0 10px #a03bff,
+            0 0 20px #a03bff,
+            0 0 30px #a03bff,
+            0 0 40px #34115d;
+
+}
+.back{
+    background-image: url('../imagens/dark-fantasy-card-back.jpg');
+    transform: rotateY(0deg);
+}
+.front{
+    background-image: url('../imagens/1695156937388z_800x800.jpg');
+    transform: rotateY(180deg);
+}
+
+.card:hover{
+    transform: rotateY(180deg);
+}
 
 @media (max-width: 600px) {
     .game-title {

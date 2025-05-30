@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/login.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jacquard+12+Charted&family=Metamorphous&display=swap" rel="stylesheet">
+
+
+    <title>Memory Fantasy</title>
+</head>
+<body>
+<video autoplay muted loop playsinline id="bg-video">
+    <source src="imagens/logindarkbackground.mp4" type="video/mp4">
+    Seu navegador não suporta vídeo em segundo plano.
+</video>
+
+<div class="overlay"></div>
+<<div class="container">
+    <h1 class="page-title">Memory Fantasy</h1>
+
+    <form class="login-form">
+        <div class="inner-rectangle"></div>
+
+        <div class="login__header">
+            <h1>Login</h1>
+        </div>
+
+        <input type="text" placeholder="Name" class="login__input">
+        <button type="submit" class="login__btn" disabled>Play</button>
+    </form>
+</div>
+
+<script src="./js/login.js"></script>
+</body>
+</html>

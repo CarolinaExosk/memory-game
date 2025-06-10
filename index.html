@@ -20,19 +20,86 @@
 </video>
 
 <div class="overlay"></div>
-<<div class="container">
+
+<div class="container">
     <h1 class="page-title">Memory Fantasy</h1>
 
     <form class="login-form">
-        <div class="inner-rectangle"></div>
-
         <div class="login__header">
             <h1>Login</h1>
         </div>
 
         <input type="text" placeholder="Name" class="login__input">
+
+        <div class="dropdown">
+            <button type="button" class="dropdown__btn" data-selection-type="Modo">Modo de Jogo</button>
+            <div class="dropdown__content">
+                <a href="#" data-value="competitive">Competitivo</a>
+                <a href="#" data-value="cooperative">Cooperativo</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button type="button" class="dropdown__btn" data-selection-type="Dificuldade">Dificuldade</button>
+            <div class="dropdown__content">
+                <a href="#" data-value="easy">Fácil</a>
+                <a href="#" data-value="medium">Médio</a>
+                <a href="#" data-value="hard">Difícil</a>
+                <a href="#" data-value="extreme">Extremo</a>
+            </div>
+        </div>
+
         <button type="submit" class="login__btn" disabled>Play</button>
+
     </form>
+
+    <button type="button" id="open-rules-btn" class="login__btn rules-btn">Ver Regras</button>
+
+</div>
+
+<div id="rules-overlay">
+    <div id="rules-scroll">
+        <button id="close-rules-btn" class="close-btn">&times;</button>
+
+        <h2 class="rules-title"> Memory Fantasy </h2>
+        <p class="rules-subtitle">No reino esquecido de Memory Fantasy, cada jogada ecoa como um feitiço antigo. Atente-se às regras esculpidas no pergaminho do Abismo.</p>
+
+        <div class="rules-section">
+            <h3>🜁 Pontuação</h3>
+            <ul>
+                <li><strong> Carta Dourada:</strong> Vale 150 pontos, apenas no modo competitivo</li>
+                <li><strong> Carta Normal:</strong> Vale 100 pontos em ambos os modos</li>
+            </ul>
+        </div>
+
+        <div class="rules-section">
+            <h3>🜂 Embaralhar</h3>
+            <p>Pode ser usado no modo Cooperativo e Competitivo. Não há penalidade... mas use com sabedoria. O caos responde ao menor sussurro..</p>
+        </div>
+
+        <div class="rules-section">
+            <h3>🜃 Usar Dica</h3>
+            <ul>
+                <li><strong>Modo Cooperativo:</strong> Perde 20 segundos</li>
+                <li><strong>Modo Competitivo:</strong> Perde 20 pontos</li>
+            </ul>
+        </div>
+
+        <div class="rules-section">
+            <h3>🜄 Revelar Cartas</h3>
+            <ul>
+                <li><strong>Modo Cooperativo:</strong> Perde 50 segundos</li>
+                <li><strong>Modo Competitivo:</strong>
+                    <ul class="nested-list">
+                        <li>Modo Fácil → –30 pontos</li>
+                        <li>Outros Modos → –50 pontos</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <p class="rules-warning"> Cada escolha tem um preço. Jogue com coragem… ou perca-se na escuridão da memória.</p>
+    </div>
 </div>
 
 <script src="./js/login.js"></script>

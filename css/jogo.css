@@ -32,6 +32,22 @@ body {
     z-index: 1;
 }
 
+.timer{
+    color: #dac5fa;
+    text-shadow:
+            0 0 8px #ae04ff,
+            0 0 15px rgba(62, 0, 255, 0.11),
+            0 0 20px rgba(114, 36, 129, 0.34);
+}
+
+.tempo-label {
+    color: #dac5fa;
+    text-shadow:
+            0 0 8px #ae04ff,
+            0 0 15px rgba(62, 0, 255, 0.11),
+            0 0 20px rgba(114, 36, 129, 0.34);
+}
+
 .game-header {
     position: fixed;
     top: 0;
@@ -75,15 +91,14 @@ body {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     gap: 15px;
-    margin: 100px auto;
+    margin: 200px auto;
 }
 
 .card{
     aspect-ratio: 3/4;
     width: 100%;
-    background-color: #2f2e2e;
     border-radius: 10px;
     position: relative;
     transition: all 500ms ease;
@@ -99,6 +114,7 @@ body {
     backface-visibility: hidden;
     border-radius: 7px;
     background-size: cover;
+    transition: all 400ms ease;
     box-shadow:
             0 0 10px #a03bff,
             0 0 20px #a03bff,
@@ -106,17 +122,105 @@ body {
             0 0 40px #34115d;
 
 }
-.back{
-    background-image: url('../imagens/dark-fantasy-card-back.jpg');
-    transform: rotateY(0deg);
-}
-.front{
-    background-image: url('../imagens/1695156937388z_800x800.jpg');
+.front {
     transform: rotateY(180deg);
 }
 
-.card:hover{
+/* A face de trás não precisa de transformação inicial. */
+.back {
+    background-image: url('../imagens/dark-fantasy-card-back.jpg');
+}
+
+/* A mágica da animação: Quando .card recebe a classe .reveal-card, ele gira por inteiro */
+.reveal-card {
     transform: rotateY(180deg);
+}
+
+.disabled-card {
+    filter: saturate(0);
+    opacity: 0.5;
+}
+
+.card.disabled-card.reveal-card .front {
+    transform: rotateY(0deg);
+}
+.card.disabled-card.reveal-card .back {
+    transform: rotateY(180deg);
+}
+
+.score-board {
+    color: #fff;
+    font-size: 1rem;
+    margin-top: 10px;
+    text-shadow: 0 0 4px #000;
+}
+
+.score-board span {
+    margin: 0 5px;
+}
+
+.card.reveal-card.special-card-gold {
+    border-radius: 5px; /* Mantém as bordas arredondadas para o brilho */
+    box-shadow:
+        /* 1. Núcleo branco para dar o brilho máximo no centro */
+            0 0 5px rgba(255, 255, 255, 1),
+            0 0 10px rgba(255, 255, 255, 1),
+
+                /* 2. Brilho dourado principal */
+            0 0 20px rgba(255, 215, 0, 1),   /* Dourado (gold) */
+
+                /* 3. Brilho externo mais avermelhado para um efeito mais "quente" */
+            0 0 35px rgba(255, 165, 0, 0.8), /* Laranja (orange) */
+
+                /* 4. Camada final bem ampla e suave */
+            0 0 60px rgba(255, 165, 0, 0.7);
+}
+
+.grid {
+    overflow: visible;
+}
+
+.card.special-card-gold .face.front {
+    box-shadow: none;
+}
+
+.highlight-reveal {
+    box-shadow:
+            0 0 15px #fff,
+            0 0 25px #f0ff3b,
+            0 0 35px #f0ff3b,
+            0 0 50px #f0ff3b;
+    transform: scale(1.05);
+}
+
+/* Efeito para o poder Congelar */
+.frozen {
+    cursor: not-allowed;
+    box-shadow:
+            0 0 15px #00f,
+            0 0 25px #3b9eff,
+            0 0 35px #3b9eff,
+            0 0 50px #3b9eff;
+}
+
+/* Adiciona um pseudo-elemento para dar um visual de "gelo" */
+.frozen::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(100, 150, 255, 0.4);
+    border-radius: 7px;
+    pointer-events: none; /* Garante que não interfere com cliques */
+}
+
+/* Efeito para a penalidade de tempo no modo cooperativo */
+.time-penalty {
+    color: red !important;
+    transform: scale(1.2);
+    transition: all 0.2s ease-in-out;
 }
 
 @media (max-width: 600px) {

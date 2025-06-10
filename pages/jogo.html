@@ -20,13 +20,31 @@
     <header class="game-header">
         <h1 class="game-title">Memory Game</h1>
         <span class="player-name">Player: <strong id="playerName"></strong></span>
+        <span><span class="tempo-label">Tempo:</span> <span class="timer">00</span></span>
     </header>
 </div>
 
-<div class="grid">
+<div class="score-board">
+    <div id="competitive-score" style="display: none;">
+        <span>Sua Pontuação: <span id="player-score">0</span></span>
+        <span> | </span>
+        <span>Pontuação IA: <span id="machine-score">0</span></span>
+    </div>
+    <div id="cooperative-score" style="display: none;">
+        <span>Grupos Formados: <span id="shared-score">0</span></span>
+    </div>
+</div>
+
+<div id="painel-poderes">
+    <button id="btn-dica">Usar Dica</button>
+    <button id="btn-reveal">Revelar</button>
+    <button id="btn-shuffle">Embaralhar</button>
+    <button id="btn-freeze">Congelar</button>
 </div>
 
 
+<div class="grid">
+</div>
 
 <script src="../js/jogo.js"></script>
 </body>

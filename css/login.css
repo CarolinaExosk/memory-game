@@ -135,7 +135,7 @@ body {
 
 .dropdown {
     position: relative;
-    width: 60%; /* Largura do botão dropdown */
+    width: 60%;
     margin-bottom: 15px;
 }
 
@@ -162,7 +162,7 @@ body {
 }
 
 .dropdown__content {
-    /* Esconde o conteúdo por padrão */
+
     display: none;
 
     position: absolute;
@@ -191,7 +191,6 @@ body {
     color: #fff;
 }
 
-/* Classe que será adicionada via JavaScript para mostrar a aba */
 .show {
     display: block;
 }
@@ -202,48 +201,45 @@ body {
     margin-top: 25px;
 }
 
-/* Overlay que escurece o fundo */
 #rules-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85); /* Mais escuro para dar foco */
+    background-color: rgba(0, 0, 0, 0.85);
     z-index: 1000;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    /* Animação de entrada */
+
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
-/* Classe para mostrar o overlay */
+
 #rules-overlay.show {
     opacity: 1;
     visibility: visible;
 }
 
-/* O Pergaminho em si */
 #rules-scroll {
     width: 90%;
     max-width: 650px;
-    height: 85vh; /* Ocupa 85% da altura da tela */
+    height: 85vh;
 
     background-image: url('../imagens/pergaminho.png');
-    background-size: 100% 100%; /* Estica a imagem para caber perfeitamente */
+    background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
 
-    padding: 60px 70px; /* Espaçamento interno para o texto não ficar nas bordas */
-    overflow-y: auto; /* Adiciona barra de rolagem se o conteúdo for grande */
+    padding: 60px 70px;
+    overflow-y: auto;
     position: relative;
 
-    /* Animação de "desenrolar" */
     transform: scale(0.8);
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -252,8 +248,6 @@ body {
     transform: scale(1);
 }
 
-
-/* Botão de Fechar (X) */
 .close-btn {
     position: absolute;
     top: 25px;
@@ -272,7 +266,6 @@ body {
     color: #814825;
 }
 
-/* Estilização do TEXTO DENTRO DO PERGAMINHO */
 #rules-scroll .rules-title,
 #rules-scroll .rules-section h3,
 #rules-scroll .rules-warning {

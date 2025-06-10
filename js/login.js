@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropdownOptions = document.querySelectorAll('.dropdown__content a');
     dropdownOptions.forEach(option => {
         option.addEventListener('click', (event) => {
-            event.preventDefault(); // Impede que o link recarregue a página
+            event.preventDefault();
 
             const button = option.parentElement.previousElementSibling;
             const content = option.parentElement;
@@ -79,24 +79,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Seleciona os elementos do DOM
     const openRulesBtn = document.getElementById('open-rules-btn');
     const closeRulesBtn = document.getElementById('close-rules-btn');
     const rulesOverlay = document.getElementById('rules-overlay');
 
-// Função para abrir o pergaminho
     openRulesBtn.addEventListener('click', () => {
         rulesOverlay.classList.add('show');
     });
 
-// Função para fechar o pergaminho com o botão 'X'
+
     closeRulesBtn.addEventListener('click', () => {
         rulesOverlay.classList.remove('show');
     });
 
-// Função para fechar o pergaminho clicando fora dele (no overlay)
     rulesOverlay.addEventListener('click', (event) => {
-        // Verifica se o clique foi no próprio overlay e não nos seus filhos (o pergaminho)
         if (event.target === rulesOverlay) {
             rulesOverlay.classList.remove('show');
         }

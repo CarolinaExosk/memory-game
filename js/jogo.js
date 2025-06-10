@@ -34,8 +34,11 @@ const cooperativeTimeSettings = {
 };
 
 const personagens = [
-    '1695156937388z_800x800', 'arrowskeleton', 'beast', 'cavaleiros',
-    'magobranco', 'magos', 'purple', 'queen', 'reddragon', 'torre',
+    '1695156937388z_800x800', 'arrowskeleton',
+    'beast', 'cavaleiros',
+    'magobranco', 'magos',
+    'purple', 'queen',
+    'reddragon', 'torre',
     'unicorn', 'cthulhu'
 ];
 
@@ -71,12 +74,12 @@ const updateScore = (character) => {
     if (gameMode === 'cooperative') {
         sharedScore++;
         sharedScoreSpan.textContent = sharedScore;
-    } else { // Lógica para o Modo Competitivo
+    } else {
         const specialCardCharacter = '1695156937388z_800x800';
-        let points = 100; // Pontuação padrão por acerto
+        let points = 100;
 
         if (character === specialCardCharacter) {
-            points = 150; // Pontuação para a carta especial
+            points = 150;
         }
 
         if (vezDoJogador) {
@@ -149,8 +152,6 @@ const checkMatch = () => {
     if (allMatch) {
         updateScore(firstCharacter);
 
-        // Apenas desabilita as cartas. O brilho dourado já foi aplicado em revealCard
-        // e permanecerá, pois a carta não será desvirada.
         revealedCards.forEach(card => {
             card.classList.add('disabled-card');
             card.classList.add('reveal-card');
@@ -171,7 +172,6 @@ const checkMatch = () => {
             blockClick = false;
         }
     } else {
-        // Lógica de erro
         correctStreak = 0;
         vezDoJogador = !vezDoJogador;
         blockClick = true;
@@ -180,7 +180,6 @@ const checkMatch = () => {
             revealedCards.forEach(card => {
                 if (!card.classList.contains('disabled-card')) {
                     card.classList.remove('reveal-card');
-                    // NOVO: Remove a classe dourada se o par estiver errado
                     card.classList.remove('special-card-gold');
                 }
             });
@@ -203,10 +202,8 @@ const revealCard = ({ currentTarget }) => {
     }
     if (gameMode === 'competitive' && !vezDoJogador) return;
 
-    // Adiciona a classe que dispara a animação do CSS
     currentTarget.classList.add('reveal-card');
 
-    // NOVO: Adiciona o brilho dourado imediatamente ao virar a carta especial
     const specialCardCharacter = '1695156937388z_800x800';
     if (gameMode === 'competitive' && currentTarget.getAttribute('data-character') === specialCardCharacter) {
         currentTarget.classList.add('special-card-gold');
@@ -245,17 +242,16 @@ const createCard = (personagem) => {
 };
 
 const setupUIForGameMode = () => {
-    // Oculta o botão de congelar em TODOS os modos de jogo.
     btnFreeze.style.display = 'none';
 
     if (gameMode === 'cooperative') {
         cooperativeScoreboard.style.display = 'block';
         competitiveScoreboard.style.display = 'none';
-        btnShuffle.style.display = 'none'; // Mantém o poder de embaralhar oculto no cooperativo
+        btnShuffle.style.display = 'none';
     } else {
         cooperativeScoreboard.style.display = 'none';
         competitiveScoreboard.style.display = 'block';
-        btnShuffle.style.display = 'inline-block'; // Garante que o embaralhar apareça no competitivo
+        btnShuffle.style.display = 'inline-block';
     }
 };
 const loadGame = () => {
@@ -276,23 +272,18 @@ const loadGame = () => {
     const specialChar = '1695156937388z_800x800';
     let otherCharacters = personagens.filter(p => p !== specialChar);
 
-    if (config.isSpecial) { // Lógica para o modo Extremo (VERSÃO ROBUSTA E GARANTIDA)
+    if (config.isSpecial) {
         const { quadras, trincas, pares } = config.composition;
-        const totalUniqueCharsNeeded = quadras + trincas + pares; // Ex: 4 + 2 + 1 = 7
+        const totalUniqueCharsNeeded = quadras + trincas + pares;
 
-        // 1. Garante a inclusão da carta especial na lista de personagens do jogo.
         let finalCharacters = [specialChar];
 
-        // 2. Sorteia as outras 6 cartas necessárias da lista de personagens restantes.
         otherCharacters.sort(() => Math.random() - 0.5);
         const otherCharsToPick = otherCharacters.slice(0, totalUniqueCharsNeeded - 1);
         finalCharacters.push(...otherCharsToPick);
 
-        // 3. Embaralha a lista final de 7 personagens. Isso faz com que a carta especial
-        //    possa ser, aleatoriamente, um par, uma trinca ou uma quadra.
         finalCharacters.sort(() => Math.random() - 0.5);
 
-        // 4. Distribui os personagens escolhidos para formar os grupos de cartas.
         const assignCharsToGroups = (count, groupSize) => {
             for (let i=0; i < count; i++) {
                 const char = finalCharacters.pop();
@@ -308,7 +299,7 @@ const loadGame = () => {
         assignCharsToGroups(trincas, 3);
         assignCharsToGroups(pares, 2);
 
-    } else { // Lógica para os modos Fácil, Médio e Difícil (mantida como antes)
+    } else {
 
         otherCharacters.sort(() => Math.random() - 0.5);
         const numOtherCharsToSelect = config.totalCharacters - 1;
@@ -438,7 +429,6 @@ async function jogadaDaMaquina() {
         if (card && !card.classList.contains('reveal-card')) {
             card.classList.add('reveal-card');
 
-            // NOVO: Adiciona o brilho dourado quando a IA vira a carta especial
             const specialCardCharacter = '1695156937388z_800x800';
             if (gameMode === 'competitive' && card.getAttribute('data-character') === specialCardCharacter) {
                 card.classList.add('special-card-gold');
@@ -483,7 +473,6 @@ function triggerReveal() {
     }
 
     if (groupToReveal) {
-        // Lógica de penalidade
         if (gameMode === 'cooperative') {
             let currentTime = Number(timer.innerHTML);
             let newTime;
@@ -510,12 +499,10 @@ function triggerReveal() {
             }
         }
 
-        // Efeito de revelar as cartas (COM A VERIFICAÇÃO)
         const cardsToHighlight = hiddenCards.filter(card => card.dataset.character === groupToReveal);
         const specialCardCharacter = '1695156937388z_800x800';
 
         cardsToHighlight.forEach(card => {
-            // Adiciona o brilho roxo somente se a carta NÃO for a especial
             if (card.getAttribute('data-character') !== specialCardCharacter) {
                 card.classList.add('highlight-reveal');
                 setTimeout(() => card.classList.remove('highlight-reveal'), 2000);
@@ -578,11 +565,9 @@ function triggerFreeze() {
 }
 
 function useHint() {
-    // Verifica se o limite de dicas foi atingido
     if (hintsUsed >= maxHints) {
         return;
     }
-    // NOVO: Só permite o uso após a primeira jogada (quando alguma pontuação for feita)
     if (playerScore === 0 && machineScore === 0 && sharedScore === 0) {
         alert("A dica só pode ser usada após a primeira jogada.");
         return;
@@ -590,13 +575,12 @@ function useHint() {
 
     hintsUsed++;
 
-    // Aplica a penalidade correta com base no modo de jogo
     if (gameMode === 'cooperative') {
-        applyTimePenalty(); // Penalidade de tempo no modo cooperativo
-    } else { // NOVO: Penalidade de pontos no modo competitivo
+        applyTimePenalty();
+    } else {
         if (vezDoJogador) {
             playerScore -= 20;
-            if (playerScore < 0) playerScore = 0; // Impede pontuação negativa
+            if (playerScore < 0) playerScore = 0;
             playerScoreSpan.textContent = playerScore;
             console.log('Dica usada! Penalidade de 20 pontos.');
         }
@@ -604,7 +588,6 @@ function useHint() {
 
     atualizarEstadoBotoes();
 
-    // Lógica original para mostrar a dica
     const hidden = Array.from(document.querySelectorAll('.card:not(.reveal-card):not(.disabled-card)'));
     const sample = hidden.sort(() => 0.5 - Math.random()).slice(0, 2);
     if(sample.length > 0) {
@@ -612,7 +595,7 @@ function useHint() {
         setTimeout(() => sample.forEach(c => c.classList.remove('reveal-card')), 1000);
     } else {
         alert("Não há cartas suficientes para dar uma dica.");
-        hintsUsed--; // Devolve a dica se não pôde ser usada
+        hintsUsed--;
         atualizarEstadoBotoes();
     }
 }
@@ -622,7 +605,6 @@ window.onload = () => {
     }
     btnReveal.onclick = () => activatePower('reveal');
     btnShuffle.onclick = () => activatePower('shuffle');
-    // A linha a seguir foi removida: btnFreeze.onclick = () => activatePower('freeze');
     btnHint.onclick = useHint;
     loadGame();
     startTime();

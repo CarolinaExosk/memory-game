@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const rankingOverlay = document.getElementById('ranking-overlay');     // ID corrigido
     const listaRanking = document.getElementById('lista-ranking');
 
-    // Objeto para guardar seleções do usuário
     const selections = {
         mode: null,
         difficulty: null
@@ -35,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
             event.stopPropagation();
             const content = button.nextElementSibling;
 
-            // Fecha outros menus que possam estar abertos
             document.querySelectorAll('.dropdown__content').forEach(otherContent => {
                 if (otherContent !== content) {
                     otherContent.classList.remove('show');
@@ -71,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('player', 'Convidado');
         localStorage.setItem('gameMode', selections.mode);
         localStorage.setItem('gameDifficulty', selections.difficulty);
-        window.location.href = 'pages/jogo.html'; // Usar .href é mais comum
+        window.location.href = 'pages/jogo.html';
     };
     form.addEventListener('submit', handleSubmit);
 
@@ -95,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch('http://localhost:3000/ranking');
 
-                // Limpa a lista antes de adicionar novos itens
                 listaRanking.innerHTML = '';
 
                 if (response.ok) {
@@ -129,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (closeRankingBtn && rankingOverlay) {
         closeRankingBtn.addEventListener('click', () => {
-            // Apenas remove a classe .show para fechar
+
             rankingOverlay.classList.remove('show');
         });
     }
@@ -141,11 +138,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 content.classList.remove('show');
             });
         }
-        // Fecha a janela de regras
+
         if (event.target === rulesOverlay) {
             rulesOverlay.classList.remove('show');
         }
-        // Fecha a janela de ranking
         if (event.target === rankingOverlay) {
             rankingOverlay.classList.remove('show');
         }

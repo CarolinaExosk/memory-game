@@ -394,9 +394,6 @@ body {
     .close-btn { top: 15px; right: 20px; font-size: 2.5rem; }
 }
 
-
-/* --- ESTILO DA JANELA DE RANKING (OVERLAY) --- */
-
 #ranking-overlay {
     position: fixed;
     top: 0;
@@ -418,24 +415,21 @@ body {
     visibility: visible;
 }
 
-/* --- ESTILO DO QUADRADO PRETO NEON DO RANKING --- */
 #ranking-scroll {
     width: 90%;
     max-width: 650px;
     height: 85vh;
 
-    /* 1. Fundo preto e efeito de vidro */
-    background-color: rgba(10, 0, 20, 0.8); /* Preto com um tom de roxo escuro */
-    backdrop-filter: blur(5px); /* Desfoca o vídeo atrás */
+    background-color: rgba(10, 0, 20, 0.8);
+    backdrop-filter: blur(5px);
 
-    /* 2. Borda e brilho NEON ROXO */
     border: 2px solid rgba(170, 100, 255, 0.8);
-    border-radius: 15px; /* Cantos mais suaves */
+    border-radius: 15px;
     box-shadow: 0 0 15px rgba(138, 43, 226, 0.6),
     0 0 30px rgba(138, 43, 226, 0.4),
     inset 0 0 10px rgba(138, 43, 226, 0.3);
 
-    padding: 40px 50px; /* Padding interno */
+    padding: 40px 50px;
     overflow-y: auto;
     position: relative;
     transform: scale(0.8);
@@ -446,7 +440,6 @@ body {
     transform: scale(1);
 }
 
-/* O botão de fechar agora precisa ser mais claro */
 #ranking-scroll .close-btn {
     color: rgba(220, 180, 255, 0.8);
 }
@@ -456,9 +449,6 @@ body {
     transform: scale(1.2);
 }
 
-/* --- ESTILO DO TEXTO DENTRO DO RANKING NEON --- */
-
-/* O título e subtítulo herdam de .rules-title, então vamos sobrescrever */
 #ranking-scroll .rules-title {
     color: #e0e0e0;
     text-shadow: 0 0 5px rgba(170, 100, 255, 0.8);
@@ -468,7 +458,6 @@ body {
     color: #c0c0c0;
 }
 
-/* Estilo da lista de ranking */
 #lista-ranking {
     list-style: none;
     padding: 0;
@@ -481,16 +470,15 @@ body {
     align-items: center;
     padding: 12px 0;
     font-family: 'Metamorphous', cursive;
-    font-size: 1.1rem; /* Um pouco menor para caber mais */
-    color: #dcdcdc; /* Cor de texto clara */
-    border-bottom: 1px solid rgba(138, 43, 226, 0.3); /* Linha separadora roxa */
+    font-size: 1.1rem;
+    color: #dcdcdc;
+    border-bottom: 1px solid rgba(138, 43, 226, 0.3);
 }
 
 #lista-ranking li:last-child {
     border-bottom: none;
 }
 
-/* Destaque para os 3 primeiros (cores ajustadas para o fundo escuro) */
 #lista-ranking li:nth-child(1) {
     color: #ffd700;
     text-shadow: 0 0 5px #ffd700;
@@ -509,7 +497,6 @@ body {
 }
 
 
-/* --- ESTILO P/ BOTÃO RANKING (ÍCONE NEON) --- */
 #btn-mostrar-ranking {
     position: fixed;
     bottom: 30px;

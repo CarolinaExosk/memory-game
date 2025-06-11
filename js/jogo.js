@@ -1,4 +1,3 @@
-// Elementos da Interface
 const grid = document.querySelector('.grid');
 const spanPlayer = document.querySelector('.player-name strong');
 const timer = document.querySelector('.timer');
@@ -8,44 +7,37 @@ const playerScoreSpan = document.querySelector('#player-score');
 const machineScoreSpan = document.querySelector('#machine-score');
 const sharedScoreSpan = document.querySelector('#shared-score');
 
-// Botões de Poderes
 const btnHint = document.querySelector('#btn-dica');
 const btnReveal = document.querySelector('#btn-reveal');
 const btnShuffle = document.querySelector('#btn-shuffle');
 const btnFreeze = document.querySelector('#btn-freeze');
 
-// Elementos do Modal de Fim de Jogo
 const endGameOverlay = document.querySelector('#end-game-overlay');
 const endGameMessageContainer = document.querySelector('#end-game-message-container');
 const btnRestart = document.querySelector('#btn-restart');
 const btnMainMenu = document.querySelector('#btn-main-menu');
 
-// Configurações do Jogo (do localStorage)
 const playerName = localStorage.getItem('player') || 'Convidado';
 const dificuldade = localStorage.getItem('gameDifficulty') || 'easy';
 const gameMode = localStorage.getItem('gameMode') || 'competitive';
 
-// Variáveis de Estado do Jogo
 let revealedCards = [];
 let loop;
 let blockClick = false;
 let isGameOver = false;
 
-// Estado Competitivo
 let vezDoJogador = true;
 let playerScore = 0;
 let machineScore = 0;
 let machineMemory = [];
 const CHANCE_DE_LEMBRAR = 0.75;
 
-// Estado Cooperativo
 let sharedScore = 0;
 const TIME_PENALTY_SECONDS = 10;
 const cooperativeTimeSettings = {
     easy: 100, medium: 150, hard: 200, extreme: 240,
 };
 
-// Configuração de Personagens e Dificuldade
 const personagens = [
     '1695156937388z_800x800', 'arrowskeleton',
     'beast', 'cavaleiros',
@@ -66,7 +58,6 @@ const config = difficultySettings[dificuldade];
 let totalCardsInGame = 0;
 let groupSizes = {};
 
-// Estado dos Poderes
 const MAX_SPECIAL = 3;
 let usedSpecial = 0;
 let maxHints = 3;
@@ -113,7 +104,6 @@ const endGame = async (didWin) => {
     clearInterval(loop);
     blockClick = true;
 
-    // Desabilita botões do jogo
     btnHint.disabled = true;
     btnReveal.disabled = true;
     btnShuffle.disabled = true;
@@ -130,7 +120,7 @@ const endGame = async (didWin) => {
         } else {
             finalMessageHTML = `TEMPO ESGOTADO! <br> Vocês não conseguiram limpar o tabuleiro a tempo.`;
         }
-    } else { // Modo competitivo
+    } else {
         let winnerMessage = `Placar Final: <br> Você ${playerScore} x ${machineScore} Ghost`;
         if (playerScore > machineScore) {
             winnerMessage += '<br><strong>Você Venceu!</strong>';
@@ -143,11 +133,9 @@ const endGame = async (didWin) => {
         finalMessageHTML = winnerMessage;
     }
 
-    // Preenche e exibe o modal
     endGameMessageContainer.innerHTML = finalMessageHTML;
-    endGameOverlay.style.display = 'flex'; // Exibe o modal
+    endGameOverlay.style.display = 'flex';
 
-    // Lógica para salvar a pontuação, apenas se o jogador ganhou ou terminou o coop com vitória
     if (podeSalvarRanking) {
         const scoreData = {
             jogador: playerName === 'Convidado' ? 'Anônimo' : playerName,
@@ -181,10 +169,8 @@ const endGame = async (didWin) => {
 const checkEndGame = () => {
     const disabledCards = document.querySelectorAll('.disabled-card.card');
 
-    // Logs para depuração
     console.log(`Verificando fim de jogo: Cartas desabilitadas: ${disabledCards.length}, Total de cartas: ${totalCardsInGame}`);
 
-    // CORREÇÃO: Usar >= para tornar a verificação mais robusta
     if (disabledCards.length >= totalCardsInGame) {
         console.log("Condição de fim de jogo ATINGIDA! Chamando endGame(true).");
         endGame(true);
@@ -676,13 +662,11 @@ window.onload = () => {
     btnShuffle.onclick = () => activatePower('shuffle');
     btnHint.onclick = useHint;
 
-    // Listeners para os botões do modal de fim de jogo
     btnRestart.addEventListener('click', () => {
-        window.location.reload(); // Recarrega a página para reiniciar
+        window.location.reload();
     });
 
     btnMainMenu.addEventListener('click', () => {
-        // IMPORTANTE: Verifique se este é o caminho correto para sua tela de login/inicial
         window.location.href = '../index.html';
     });
 

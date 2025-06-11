@@ -158,19 +158,12 @@ body {
 }
 
 .card.reveal-card.special-card-gold {
-    border-radius: 5px; /* Mantém as bordas arredondadas para o brilho */
+    border-radius: 5px;
     box-shadow:
-        /* 1. Núcleo branco para dar o brilho máximo no centro */
             0 0 5px rgba(255, 255, 255, 1),
             0 0 10px rgba(255, 255, 255, 1),
-
-                /* 2. Brilho dourado principal */
-            0 0 20px rgba(255, 215, 0, 1),   /* Dourado (gold) */
-
-                /* 3. Brilho externo mais avermelhado para um efeito mais "quente" */
-            0 0 35px rgba(255, 165, 0, 0.8), /* Laranja (orange) */
-
-                /* 4. Camada final bem ampla e suave */
+            0 0 20px rgba(255, 215, 0, 1),
+            0 0 35px rgba(255, 165, 0, 0.8),
             0 0 60px rgba(255, 165, 0, 0.7);
 }
 
@@ -191,7 +184,6 @@ body {
     transform: scale(1.05);
 }
 
-/* Efeito para o poder Congelar */
 .frozen {
     cursor: not-allowed;
     box-shadow:
@@ -201,7 +193,6 @@ body {
             0 0 50px #3b9eff;
 }
 
-/* Adiciona um pseudo-elemento para dar um visual de "gelo" */
 .frozen::after {
     content: '';
     position: absolute;
@@ -211,10 +202,9 @@ body {
     height: 100%;
     background-color: rgba(100, 150, 255, 0.4);
     border-radius: 7px;
-    pointer-events: none; /* Garante que não interfere com cliques */
+    pointer-events: none;
 }
 
-/* Efeito para a penalidade de tempo no modo cooperativo */
 .time-penalty {
     color: red !important;
     transform: scale(1.2);
@@ -222,42 +212,32 @@ body {
 }
 
 #painel-poderes {
-    position: fixed; /* Posição fixa na tela */
+    position: fixed;
     bottom: 20px;
     left: 20px;
     z-index: 100;
-
-    /* Organiza os botões em coluna */
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Espaço entre os botões */
+    gap: 15px;
 }
 
-/* Estilo individual dos botões de poder */
 #painel-poderes button {
-    width: 180px; /* Largura fixa para os botões */
+    width: 180px;
     padding: 10px 15px;
-
-    /* Estética baseada nos botões de login */
     background: #000000;
-    border: 1px solid rgba(170, 100, 255, 0.8); /* Borda roxa */
+    border: 1px solid rgba(170, 100, 255, 0.8);
     border-radius: 8px;
-
-    /* Cores e fontes */
-    color: #e0cffc; /* Roxo claro */
+    color: #e0cffc;
     font-family: 'Metamorphous', serif;
     font-size: 1rem;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
-
-    /* Efeito NEON AZUL E ROXO */
     text-shadow: 0 0 5px #00e1ff, 0 0 10px #7a00ff;
     box-shadow: 0 0 8px rgba(0, 225, 255, 0.6),
     0 0 15px rgba(122, 0, 255, 0.5),
     inset 0 0 8px rgba(0, 225, 255, 0.3);
-
     transition: all 0.3s ease;
 }
 
@@ -265,50 +245,41 @@ body {
     transform: scale(1.05);
     color: #fff;
     border-color: #fff;
-    /* Brilho mais intenso no hover */
     box-shadow: 0 0 15px rgba(0, 225, 255, 1),
     0 0 30px rgba(122, 0, 255, 0.8),
     inset 0 0 10px rgba(0, 225, 255, 0.5);
 }
 
-
-/* 2. PLACAR (SCORE BOARD) NEON NO TOPO DA TELA */
-
-/* Container principal que cobre o topo da tela */
 .score-board {
     position: fixed;
-    top: 115px; /* Posição abaixo do header */
+    top: 115px;
     left: 0;
     width: 100%;
-    padding: 10px 30px; /* Espaçamento das bordas da tela */
-    box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+    padding: 10px 30px;
+    box-sizing: border-box;
     z-index: 5;
-    pointer-events: none; /* Permite clicar através dele */
+    pointer-events: none;
 }
 
-/* Container do placar competitivo */
 #competitive-score {
     display: flex;
-    justify-content: center; /* MUDANÇA: Alinha os itens no centro */
-    align-items: center;  /* Alinha verticalmente para garantir perfeição */
-    gap: 25px; /* Adiciona um espaço entre os placares e o separador */
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
     width: 100%;
 }
 
-/* Container do placar cooperativo */
 #cooperative-score {
-    text-align: center; /* Centraliza o placar cooperativo */
+    text-align: center;
     width: 100%;
 }
 
-/* Estilo para TODOS os textos dentro do placar */
 .score-board span {
     font-size: 1.3rem;
     font-weight: bold;
     letter-spacing: 1px;
 }
 
-/* Estilo para o placar do JOGADOR (primeiro span) */
 #competitive-score span:first-child {
     color: #6500ff;
     text-shadow:
@@ -317,7 +288,6 @@ body {
             0 0 20px rgba(114, 36, 129, 0.34);
 }
 
-/* Estilo para o placar da IA (último span) */
 #competitive-score span:last-child {
     color: #6500ff;
     text-shadow:
@@ -334,30 +304,29 @@ body {
 #cooperative-score span {
     color: #fff;
     text-shadow: 0 0 5px #fff, 0 0 10px #fff;
-
-    }
+}
 
 .end-game-overlay-container {
-    position: fixed; /* Cobre a tela inteira */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.75); /* Fundo escuro semitransparente */
-    display: none; /* Escondido por padrão */
+    background-color: rgba(0, 0, 0, 0.75);
+    display: none;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Garante que fique na frente de tudo */
-    backdrop-filter: blur(5px); /* Efeito de desfoque no fundo (opcional) */
+    z-index: 1000;
+    backdrop-filter: blur(5px);
 }
 
 .end-game-box {
-    background: #000000; /* Cor de fundo escura, combinando com o tema */
+    background: #000000;
     padding: 30px 40px;
     border-radius: 15px;
-    border: 2px solid #e94560; /* Borda destacada */
+    border: 2px solid #e94560;
     text-align: center;
-    color: #f0f0f0; /* Cor do texto */
+    color: #f0f0f0;
     font-family: 'Metamorphous', cursive;
     max-width: 500px;
     box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
@@ -410,7 +379,7 @@ body {
 }
 
 #ranking-input-container {
-    display: none; /* Começa escondido */
+    display: none;
     margin-top: 20px;
     margin-bottom: 25px;
 }
@@ -431,7 +400,7 @@ body {
     margin-left: 10px;
     font-family: 'Metamorphous', cursive;
     font-size: 0.9em;
-    border: 2px solid #2ecc71; /* Verde */
+    border: 2px solid #2ecc71;
     border-radius: 8px;
     background-color: transparent;
     color: #2ecc71;
@@ -464,4 +433,3 @@ body {
         height: 110px;
     }
 }
-

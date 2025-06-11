@@ -126,12 +126,10 @@ body {
     transform: rotateY(180deg);
 }
 
-/* A face de trás não precisa de transformação inicial. */
 .back {
     background-image: url('../imagens/dark-fantasy-card-back.jpg');
 }
 
-/* A mágica da animação: Quando .card recebe a classe .reveal-card, ele gira por inteiro */
 .reveal-card {
     transform: rotateY(180deg);
 }
@@ -223,6 +221,236 @@ body {
     transition: all 0.2s ease-in-out;
 }
 
+#painel-poderes {
+    position: fixed; /* Posição fixa na tela */
+    bottom: 20px;
+    left: 20px;
+    z-index: 100;
+
+    /* Organiza os botões em coluna */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaço entre os botões */
+}
+
+/* Estilo individual dos botões de poder */
+#painel-poderes button {
+    width: 180px; /* Largura fixa para os botões */
+    padding: 10px 15px;
+
+    /* Estética baseada nos botões de login */
+    background: #000000;
+    border: 1px solid rgba(170, 100, 255, 0.8); /* Borda roxa */
+    border-radius: 8px;
+
+    /* Cores e fontes */
+    color: #e0cffc; /* Roxo claro */
+    font-family: 'Metamorphous', serif;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+
+    /* Efeito NEON AZUL E ROXO */
+    text-shadow: 0 0 5px #00e1ff, 0 0 10px #7a00ff;
+    box-shadow: 0 0 8px rgba(0, 225, 255, 0.6),
+    0 0 15px rgba(122, 0, 255, 0.5),
+    inset 0 0 8px rgba(0, 225, 255, 0.3);
+
+    transition: all 0.3s ease;
+}
+
+#painel-poderes button:hover {
+    transform: scale(1.05);
+    color: #fff;
+    border-color: #fff;
+    /* Brilho mais intenso no hover */
+    box-shadow: 0 0 15px rgba(0, 225, 255, 1),
+    0 0 30px rgba(122, 0, 255, 0.8),
+    inset 0 0 10px rgba(0, 225, 255, 0.5);
+}
+
+
+/* 2. PLACAR (SCORE BOARD) NEON NO TOPO DA TELA */
+
+/* Container principal que cobre o topo da tela */
+.score-board {
+    position: fixed;
+    top: 115px; /* Posição abaixo do header */
+    left: 0;
+    width: 100%;
+    padding: 10px 30px; /* Espaçamento das bordas da tela */
+    box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+    z-index: 5;
+    pointer-events: none; /* Permite clicar através dele */
+}
+
+/* Container do placar competitivo */
+#competitive-score {
+    display: flex;
+    justify-content: center; /* MUDANÇA: Alinha os itens no centro */
+    align-items: center;  /* Alinha verticalmente para garantir perfeição */
+    gap: 25px; /* Adiciona um espaço entre os placares e o separador */
+    width: 100%;
+}
+
+/* Container do placar cooperativo */
+#cooperative-score {
+    text-align: center; /* Centraliza o placar cooperativo */
+    width: 100%;
+}
+
+/* Estilo para TODOS os textos dentro do placar */
+.score-board span {
+    font-size: 1.3rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Estilo para o placar do JOGADOR (primeiro span) */
+#competitive-score span:first-child {
+    color: #6500ff;
+    text-shadow:
+            0 0 8px #ae04ff,
+            0 0 15px rgba(62, 0, 255, 0.11),
+            0 0 20px rgba(114, 36, 129, 0.34);
+}
+
+/* Estilo para o placar da IA (último span) */
+#competitive-score span:last-child {
+    color: #6500ff;
+    text-shadow:
+            0 0 8px #ae04ff,
+            0 0 15px rgba(62, 0, 255, 0.11),
+            0 0 20px rgba(114, 36, 129, 0.34);
+}
+
+#competitive-score span:nth-child(2) {
+    color: rgba(255, 255, 255, 0.7);
+    text-shadow: none;
+}
+
+#cooperative-score span {
+    color: #fff;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff;
+
+    }
+
+.end-game-overlay-container {
+    position: fixed; /* Cobre a tela inteira */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); /* Fundo escuro semitransparente */
+    display: none; /* Escondido por padrão */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Garante que fique na frente de tudo */
+    backdrop-filter: blur(5px); /* Efeito de desfoque no fundo (opcional) */
+}
+
+.end-game-box {
+    background: #000000; /* Cor de fundo escura, combinando com o tema */
+    padding: 30px 40px;
+    border-radius: 15px;
+    border: 2px solid #e94560; /* Borda destacada */
+    text-align: center;
+    color: #f0f0f0; /* Cor do texto */
+    font-family: 'Metamorphous', cursive;
+    max-width: 500px;
+    box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+    transform: scale(0.9);
+    animation: fadeInModal 0.3s forwards;
+}
+
+@keyframes fadeInModal {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+.end-game-box h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #e94560;
+}
+
+.end-game-box #end-game-message-container {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.end-game-buttons button {
+    font-family: 'Metamorphous', cursive;
+    padding: 12px 25px;
+    font-size: 1em;
+    border: 2px solid #f0f0f0;
+    border-radius: 8px;
+    background-color: transparent;
+    color: #f0f0f0;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+}
+
+.end-game-buttons button:hover {
+    background-color: #e94560;
+    border-color: #e94560;
+    color: #1a1a2e;
+    transform: translateY(-3px);
+}
+
+#ranking-input-container {
+    display: none; /* Começa escondido */
+    margin-top: 20px;
+    margin-bottom: 25px;
+}
+
+#ranking-name-input {
+    width: 70%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #f0f0f0;
+    background-color: #333;
+    color: #fff;
+    font-family: sans-serif;
+    font-size: 1em;
+}
+
+#btn-save-score {
+    padding: 10px 15px;
+    margin-left: 10px;
+    font-family: 'Metamorphous', cursive;
+    font-size: 0.9em;
+    border: 2px solid #2ecc71; /* Verde */
+    border-radius: 8px;
+    background-color: transparent;
+    color: #2ecc71;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#btn-save-score:hover {
+    background-color: #2ecc71;
+    color: #1a1a2e;
+}
+
+#btn-save-score:disabled {
+    border-color: #555;
+    color: #555;
+    cursor: not-allowed;
+    background-color: transparent;
+}
+
 @media (max-width: 600px) {
     .game-title {
         font-size: 2.5rem;
@@ -236,3 +464,4 @@ body {
         height: 110px;
     }
 }
+

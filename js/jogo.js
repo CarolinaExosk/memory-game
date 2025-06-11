@@ -1,3 +1,4 @@
+// Elementos da Interface
 const grid = document.querySelector('.grid');
 const spanPlayer = document.querySelector('.player-name strong');
 const timer = document.querySelector('.timer');
@@ -7,32 +8,44 @@ const playerScoreSpan = document.querySelector('#player-score');
 const machineScoreSpan = document.querySelector('#machine-score');
 const sharedScoreSpan = document.querySelector('#shared-score');
 
+// Botões de Poderes
 const btnHint = document.querySelector('#btn-dica');
 const btnReveal = document.querySelector('#btn-reveal');
 const btnShuffle = document.querySelector('#btn-shuffle');
 const btnFreeze = document.querySelector('#btn-freeze');
 
+// Elementos do Modal de Fim de Jogo
+const endGameOverlay = document.querySelector('#end-game-overlay');
+const endGameMessageContainer = document.querySelector('#end-game-message-container');
+const btnRestart = document.querySelector('#btn-restart');
+const btnMainMenu = document.querySelector('#btn-main-menu');
+
+// Configurações do Jogo (do localStorage)
 const playerName = localStorage.getItem('player') || 'Convidado';
 const dificuldade = localStorage.getItem('gameDifficulty') || 'easy';
 const gameMode = localStorage.getItem('gameMode') || 'competitive';
 
+// Variáveis de Estado do Jogo
 let revealedCards = [];
 let loop;
 let blockClick = false;
 let isGameOver = false;
 
+// Estado Competitivo
 let vezDoJogador = true;
 let playerScore = 0;
 let machineScore = 0;
-let sharedScore = 0;
 let machineMemory = [];
 const CHANCE_DE_LEMBRAR = 0.75;
-const TIME_PENALTY_SECONDS = 10;
 
+// Estado Cooperativo
+let sharedScore = 0;
+const TIME_PENALTY_SECONDS = 10;
 const cooperativeTimeSettings = {
     easy: 100, medium: 150, hard: 200, extreme: 240,
 };
 
+// Configuração de Personagens e Dificuldade
 const personagens = [
     '1695156937388z_800x800', 'arrowskeleton',
     'beast', 'cavaleiros',
@@ -53,20 +66,22 @@ const config = difficultySettings[dificuldade];
 let totalCardsInGame = 0;
 let groupSizes = {};
 
+// Estado dos Poderes
 const MAX_SPECIAL = 3;
 let usedSpecial = 0;
 let maxHints = 3;
 let hintsUsed = 0;
 let correctStreak = 0;
-
 let freezeState = null;
 let poderesUsados = { reveal: false, shuffle: false, freeze: false };
+let hasMadeFirstMatch = false;
+
 
 function atualizarEstadoBotoes() {
     const jogadorPodeAgir = vezDoJogador && !blockClick;
     btnHint.disabled = !jogadorPodeAgir || (hintsUsed >= maxHints);
     const podeUsarPoderEspecial = jogadorPodeAgir && (usedSpecial < MAX_SPECIAL);
-    btnReveal.disabled = !podeUsarPoderEspecial || poderesUsados.reveal;
+    btnReveal.disabled = !podeUsarPoderEspecial || poderesUsados.reveal || !hasMadeFirstMatch;
     btnShuffle.disabled = !podeUsarPoderEspecial || poderesUsados.shuffle;
 }
 
@@ -92,43 +107,90 @@ const updateScore = (character) => {
     }
 };
 
-const endGame = (didWin) => {
+const endGame = async (didWin) => {
     if (isGameOver) return;
     isGameOver = true;
     clearInterval(loop);
     blockClick = true;
+
+    // Desabilita botões do jogo
     btnHint.disabled = true;
     btnReveal.disabled = true;
     btnShuffle.disabled = true;
     btnFreeze.disabled = true;
-    const endMessage = document.createElement('div');
-    endMessage.className = 'end-game-message';
-    if (didWin) {
-        if (gameMode === 'cooperative') {
-            endMessage.innerHTML = `VITÓRIA! <br> Vocês limparam o tabuleiro com ${timer.innerHTML} segundos restantes!`;
+
+    let finalMessageHTML = '';
+    let podeSalvarRanking = false;
+    let finalTime = Number(timer.innerHTML);
+
+    if (gameMode === 'cooperative') {
+        if(didWin) {
+            finalMessageHTML = 'VITÓRIA!';
+            podeSalvarRanking = true;
         } else {
-            let winnerMessage = `Fim de Jogo! Placar Final: <br> Você ${playerScore} x ${machineScore} IA`;
-            if (playerScore > machineScore) {
-                winnerMessage += '<br>Você Venceu!';
-            } else if (machineScore > playerScore) {
-                winnerMessage += '<br>A IA Venceu!';
-            } else {
-                winnerMessage += '<br>Empate!';
-            }
-            endMessage.innerHTML = winnerMessage;
+            finalMessageHTML = `TEMPO ESGOTADO! <br> Vocês não conseguiram limpar o tabuleiro a tempo.`;
         }
-    } else {
-        endMessage.innerHTML = `TEMPO ESGOTADO! <br> Mais sorte na próxima vez.`;
+    } else { // Modo competitivo
+        let winnerMessage = `Placar Final: <br> Você ${playerScore} x ${machineScore} Ghost`;
+        if (playerScore > machineScore) {
+            winnerMessage += '<br><strong>Você Venceu!</strong>';
+            podeSalvarRanking = true;
+        } else if (machineScore > playerScore) {
+            winnerMessage += '<br><strong>Ghost Venceu!</strong>';
+        } else {
+            winnerMessage += '<br><strong>Empate!</strong>';
+        }
+        finalMessageHTML = winnerMessage;
     }
-    document.body.appendChild(endMessage);
+
+    // Preenche e exibe o modal
+    endGameMessageContainer.innerHTML = finalMessageHTML;
+    endGameOverlay.style.display = 'flex'; // Exibe o modal
+
+    // Lógica para salvar a pontuação, apenas se o jogador ganhou ou terminou o coop com vitória
+    if (podeSalvarRanking) {
+        const scoreData = {
+            jogador: playerName === 'Convidado' ? 'Anônimo' : playerName,
+            pontos: playerScore,
+            modoJogo: gameMode,
+            dificuldade: dificuldade,
+            pontosMaquina: machineScore,
+            tempoFinal: finalTime
+        };
+
+        try {
+            const response = await fetch('http://localhost:3000/pontuar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(scoreData),
+            });
+
+            if (response.ok) {
+                console.log('Pontuação salva com sucesso no ranking!');
+            } else {
+                const errorBody = await response.json();
+                console.error('Erro ao salvar pontuação:', response.status, errorBody.error);
+            }
+        } catch (error) {
+            console.error('Erro de rede ao tentar salvar a pontuação:', error);
+            alert('Não foi possível conectar ao servidor de ranking. Verifique se o servidor back-end está rodando.');
+        }
+    }
 };
 
 const checkEndGame = () => {
     const disabledCards = document.querySelectorAll('.disabled-card.card');
-    if (disabledCards.length === totalCardsInGame) {
+
+    // Logs para depuração
+    console.log(`Verificando fim de jogo: Cartas desabilitadas: ${disabledCards.length}, Total de cartas: ${totalCardsInGame}`);
+
+    // CORREÇÃO: Usar >= para tornar a verificação mais robusta
+    if (disabledCards.length >= totalCardsInGame) {
+        console.log("Condição de fim de jogo ATINGIDA! Chamando endGame(true).");
         endGame(true);
     }
 };
+
 
 const applyTimePenalty = () => {
     if(isGameOver || gameMode !== 'cooperative') return;
@@ -160,6 +222,11 @@ const checkMatch = () => {
         revealedCards = [];
         checkEndGame();
         correctStreak++;
+
+        if (!hasMadeFirstMatch) {
+            hasMadeFirstMatch = true;
+        }
+
         if (correctStreak > 0 && correctStreak % 2 === 0) {
             if (hintsUsed > 0) {
                 hintsUsed--;
@@ -194,6 +261,7 @@ const checkMatch = () => {
     }
     atualizarEstadoBotoes();
 };
+
 const revealCard = ({ currentTarget }) => {
     if (blockClick || isGameOver ||
         currentTarget.classList.contains('reveal-card') ||
@@ -300,7 +368,6 @@ const loadGame = () => {
         assignCharsToGroups(pares, 2);
 
     } else {
-
         otherCharacters.sort(() => Math.random() - 0.5);
         const numOtherCharsToSelect = config.totalCharacters - 1;
         const selectedOtherChars = otherCharacters.slice(0, numOtherCharsToSelect);
@@ -516,6 +583,7 @@ function triggerReveal() {
         atualizarEstadoBotoes();
     }
 }
+
 function triggerShuffle() {
     console.log("Embaralhando cartas...");
     const backCards = Array.from(document.querySelectorAll('.card:not(.reveal-card):not(.disabled-card)'));
@@ -599,6 +667,7 @@ function useHint() {
         atualizarEstadoBotoes();
     }
 }
+
 window.onload = () => {
     if(spanPlayer) {
         spanPlayer.textContent = playerName;
@@ -606,6 +675,17 @@ window.onload = () => {
     btnReveal.onclick = () => activatePower('reveal');
     btnShuffle.onclick = () => activatePower('shuffle');
     btnHint.onclick = useHint;
+
+    // Listeners para os botões do modal de fim de jogo
+    btnRestart.addEventListener('click', () => {
+        window.location.reload(); // Recarrega a página para reiniciar
+    });
+
+    btnMainMenu.addEventListener('click', () => {
+        // IMPORTANTE: Verifique se este é o caminho correto para sua tela de login/inicial
+        window.location.href = '../index.html';
+    });
+
     loadGame();
     startTime();
     vezDoJogador = true;

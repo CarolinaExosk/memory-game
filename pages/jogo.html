@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Memory Cards</title>
+    <title>Memory Fantasy</title>
 
     <link rel="stylesheet" href="../css/reset.css" />
     <link rel="stylesheet" href="../css/jogo.css" />
@@ -19,7 +19,6 @@
 <div class="game-container">
     <header class="game-header">
         <h1 class="game-title">Memory Game</h1>
-        <span class="player-name">Player: <strong id="playerName"></strong></span>
         <span><span class="tempo-label">Tempo:</span> <span class="timer">00</span></span>
     </header>
 </div>
@@ -28,7 +27,7 @@
     <div id="competitive-score" style="display: none;">
         <span>Sua Pontuação: <span id="player-score">0</span></span>
         <span> | </span>
-        <span>Pontuação IA: <span id="machine-score">0</span></span>
+        <span>Ghost: <span id="machine-score">0</span></span>
     </div>
     <div id="cooperative-score" style="display: none;">
         <span>Grupos Formados: <span id="shared-score">0</span></span>
@@ -42,8 +41,26 @@
     <button id="btn-freeze">Congelar</button>
 </div>
 
-
 <div class="grid">
+</div>
+
+<div id="end-game-overlay" class="end-game-overlay-container">
+    <div class="end-game-box">
+        <h2 id="end-game-title">Fim de Jogo!</h2>
+        <div id="end-game-message-container">
+        </div>
+
+        <div id="ranking-input-container">
+            <input type="text" id="ranking-name-input" placeholder="Digite seu nome para o ranking">
+            <button id="btn-save-score">Salvar Pontuação</button>
+            <p id="ranking-saved-message" style="display: none; color: #2ecc71; margin-top: 10px;">Pontuação salva!</p>
+        </div>
+
+        <div class="end-game-buttons">
+            <button id="btn-restart">Reiniciar Jogo</button>
+            <button id="btn-main-menu">Voltar ao Início</button>
+        </div>
+    </div>
 </div>
 
 <script src="../js/jogo.js"></script>

@@ -26,10 +26,7 @@
 
     <form class="login-form">
         <div class="login__header">
-            <h1>Login</h1>
         </div>
-
-        <input type="text" placeholder="Name" class="login__input">
 
         <div class="dropdown">
             <button type="button" class="dropdown__btn" data-selection-type="Modo">Modo de Jogo</button>
@@ -62,7 +59,6 @@
         <button id="close-rules-btn" class="close-btn">&times;</button>
 
         <h2 class="rules-title"> Memory Fantasy </h2>
-        <p class="rules-subtitle">No reino esquecido de Memory Fantasy, cada jogada ecoa como um feitiço antigo. Atente-se às regras esculpidas no pergaminho do Abismo.</p>
 
         <div class="rules-section">
             <h3>🜁 Pontuação</h3>
@@ -101,6 +97,23 @@
         <p class="rules-warning"> Cada escolha tem um preço. Jogue com coragem… ou perca-se na escuridão da memória.</p>
     </div>
 </div>
+
+
+
+<button type="button" id="btn-mostrar-ranking"></button>
+
+<div id="ranking-overlay">
+    <div id="ranking-scroll">
+        <button id="close-ranking-btn" class="close-btn">&times;</button>
+
+        <h2 class="rules-title">Ranking Mundial</h2>
+        <p class="rules-subtitle">Os heróis mais lendários do reino de Memory Fantasy.</p>
+
+        <ul id="lista-ranking">
+        </ul>
+    </div>
+</div>
+
 
 <script src="./js/login.js"></script>
 </body>

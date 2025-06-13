@@ -28,26 +28,27 @@
         <div class="login__header">
         </div>
 
-        <div class="dropdown">
-            <button type="button" class="dropdown__btn" data-selection-type="Modo">Modo de Jogo</button>
-            <div class="dropdown__content">
-                <a href="#" data-value="competitive">Competitivo</a>
-                <a href="#" data-value="cooperative">Cooperativo</a>
+        <button type="submit" class="login__btn login__btn--play" disabled>Play</button>
+
+        <div class="login__selections">
+            <div class="dropdown">
+                <button type="button" class="dropdown__btn" data-selection-type="Modo">Modo de Jogo</button>
+                <div class="dropdown__content">
+                    <a href="#" data-value="competitive">Competitivo</a>
+                    <a href="#" data-value="cooperative">Cooperativo</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button type="button" class="dropdown__btn" data-selection-type="Dificuldade">Dificuldade</button>
+                <div class="dropdown__content">
+                    <a href="#" data-value="easy">Fácil</a>
+                    <a href="#" data-value="medium">Médio</a>
+                    <a href="#" data-value="hard">Difícil</a>
+                    <a href="#" data-value="extreme">Extremo</a>
+                </div>
             </div>
         </div>
-
-        <div class="dropdown">
-            <button type="button" class="dropdown__btn" data-selection-type="Dificuldade">Dificuldade</button>
-            <div class="dropdown__content">
-                <a href="#" data-value="easy">Fácil</a>
-                <a href="#" data-value="medium">Médio</a>
-                <a href="#" data-value="hard">Difícil</a>
-                <a href="#" data-value="extreme">Extremo</a>
-            </div>
-        </div>
-
-        <button type="submit" class="login__btn" disabled>Play</button>
-
     </form>
 
     <button type="button" id="open-rules-btn" class="login__btn rules-btn">Ver Regras</button>
@@ -76,25 +77,25 @@
         <div class="rules-section">
             <h3>🜃 Usar Dica</h3>
             <ul>
-                <li><strong>Modo Cooperativo:</strong> Perde 20 segundos</li>
-                <li><strong>Modo Competitivo:</strong> Perde 20 pontos</li>
+                <li><strong>Modo Cooperativo</strong> Perde 20 segundos</li>
+                <li><strong>Modo Competitivo</strong> Perde 20 pontos</li>
             </ul>
         </div>
 
         <div class="rules-section">
             <h3>🜄 Revelar Cartas</h3>
             <ul>
-                <li><strong>Modo Cooperativo:</strong> Perde 50 segundos</li>
-                <li><strong>Modo Competitivo:</strong>
+                <li><strong>Modo Cooperativo</strong> Perde 50 segundos</li>
+                <li><strong>Modo Competitivo</strong>
                     <ul class="nested-list">
-                        <li>Modo Fácil → –30 pontos</li>
-                        <li>Outros Modos → –50 pontos</li>
+                        <li>Modo Fácil perde 30 pontos</li>
+                        <li>Outros Modos perde 50 pontos</li>
                     </ul>
                 </li>
             </ul>
         </div>
 
-        <p class="rules-warning"> Cada escolha tem um preço. Jogue com coragem… ou perca-se na escuridão da memória.</p>
+        <p class="rules-warning"> Cada escolha tem um preço. Jogue com coragem… Ou perca-se na escuridão da memória.</p>
     </div>
 </div>
 

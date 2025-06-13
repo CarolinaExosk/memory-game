@@ -9,10 +9,10 @@ app.use(cors());
 app.use(express.json());
 
 const pool = new Pool({
-    user: 'seu_usuario_postgres',
+    user: 'postgres',
     host: 'localhost',
     database: 'jogo_memoria',
-    password: 'sua_senha',
+    password: '28181177',
     port: 5432,
 });
 

@@ -69,7 +69,7 @@ body {
     margin-bottom: 15px;
 
     border: 1px solid #8f1a1a;
-    border-radius: 4px;
+    border-radius: 10px;
 
     background: rgba(0, 0, 0, 0.95);
     color: #ffecec;
@@ -90,16 +90,16 @@ body {
             0 0 12px #ff1a1a;
 }
 .login__btn {
-    margin-top: 15px;
+    margin-top: 0;
     width: 40%;
 
     padding: 6px 0;
 
     background: #000000;
     border: #000000;
-    border-radius: 5px;
+    border-radius: 4px;
 
-    color: #ff9292;
+    color: #f3d7d7;
     text-shadow:
             0 0 5px #c91b1b,
             0 0 10px #a60000;
@@ -129,7 +129,6 @@ body {
 .dropdown {
     position: relative;
     width: 60%;
-    margin-bottom: 15px;
 }
 
 .dropdown__btn {
@@ -138,7 +137,7 @@ body {
 
     background: #000000;
     border: none;
-    border-radius: 10px;
+    border-radius: 4px;
 
     color: #ffecec;
     text-shadow:
@@ -151,10 +150,13 @@ body {
     letter-spacing: 2px;
 
     box-shadow:
+            inset 0 0 0 2px rgba(255, 100, 100, 0.8),
+
             0 0 5px #ff3b3b,
             0 0 10px #ff3b3b,
             0 0 20px #ff0000,
             inset 0 0 10px #ff3b3b;
+
     transition: box-shadow 0.3s ease, transform 0.2s;
 }
 
@@ -220,8 +222,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-
-
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s ease, visibility 0.4s ease;
@@ -261,7 +261,7 @@ body {
     right: 35px;
     background: none;
     border: none;
-    font-family: Arial, sans-serif;
+    font-family:    "Old English Text MT", sans-serif;
     font-size: 3rem;
     color: #4d2c16;
     cursor: pointer;
@@ -273,7 +273,6 @@ body {
     color: #814825;
 }
 
-
 #rules-scroll .rules-title,
 #rules-scroll .rules-section h3,
 #rules-scroll .rules-warning {
@@ -282,17 +281,17 @@ body {
 
 #rules-scroll .rules-title {
     font-family: 'Old English Text MT', serif;
-    color: #886c5c;
+    color: #eab99e;
     font-size: 1.9rem;
     text-align: center;
 }
 
 #rules-scroll .rules-subtitle {
     font-family: 'Old English Text MT', cursive;
-    color: #857160;
+    color: #eab99e;
     text-align: center;
     font-style: italic;
-    font-size: 0.85rem;
+    font-size: 1.2rem;
     margin: 10px 0 20px;
 }
 
@@ -302,9 +301,8 @@ body {
 
 #rules-scroll .rules-section h3 {
     font-family: 'Old English Text MT', serif;
-    color: #886c5c;
+    color: #eab99e;
     font-size: 1.3rem;
-    border-bottom: 1px solid rgba(44, 37, 30, 0.4);
     margin-bottom: 10px;
     font-style: italic;
     padding-left: 80px;
@@ -313,7 +311,7 @@ body {
 
 #rules-scroll p, #rules-scroll li {
     font-family: 'Old English Text MT', serif;
-    color: #886c5c;
+    color: #eab99e;
     font-size: 1rem;
     line-height: 1.7;
     letter-spacing: 1px;
@@ -379,8 +377,8 @@ body {
 .dropdown__btn:hover::before {
     opacity: 1;
     transform: translateY(-50%) scale(1);
-    filter: drop-shadow(0 0 4px rgba(220, 180, 255, 1))
-    drop-shadow(0 0 8px rgba(138, 43, 226, 0.8));
+    filter: drop-shadow(0 0 4px rgb(255, 255, 255))
+    drop-shadow(0 0 8px rgba(0, 0, 0, 0.8));
 }
 
 @media (max-width: 768px) {
@@ -420,14 +418,14 @@ body {
     max-width: 650px;
     height: 85vh;
 
-    background-color: rgba(10, 0, 20, 0.8);
+    background-color: rgba(20, 0, 0, 0.8);
     backdrop-filter: blur(5px);
 
-    border: 2px solid rgba(170, 100, 255, 0.8);
+    border: 2px solid rgba(255, 100, 100, 0.8);
     border-radius: 15px;
-    box-shadow: 0 0 15px rgba(138, 43, 226, 0.6),
-    0 0 30px rgba(138, 43, 226, 0.4),
-    inset 0 0 10px rgba(138, 43, 226, 0.3);
+    box-shadow: 0 0 15px rgba(226, 43, 43, 0.6),
+    0 0 30px rgba(226, 43, 43, 0.4),
+    inset 0 0 10px rgba(226, 43, 43, 0.3);
 
     padding: 40px 50px;
     overflow-y: auto;
@@ -441,11 +439,11 @@ body {
 }
 
 #ranking-scroll .close-btn {
-    color: rgba(220, 180, 255, 0.8);
+    color: rgba(255, 180, 180, 0.8);
 }
 
 #ranking-scroll .close-btn:hover {
-    color: #fff;
+    color: #000000;
     transform: scale(1.2);
 }
 
@@ -496,7 +494,6 @@ body {
     font-weight: bold;
 }
 
-
 #btn-mostrar-ranking {
     position: fixed;
     bottom: 30px;
@@ -528,4 +525,30 @@ body {
 
 #btn-mostrar-ranking::before {
     content: none;
+}
+
+.login__selections {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+}
+
+.login__btn--play {
+    width: 40%;
+    padding: 5px 0;
+    font-size: 2rem;
+    font-family: 'Old English Text MT', cursive;
+    margin-bottom: 30px;
+    margin-top: 15px;
+}
+
+.login__btn--play:hover {
+    box-shadow:
+            0 0 10px #ff0000,
+            0 0 20px #ff0000,
+            0 0 60px #ff0000,
+            inset 0 0 25px #ff0101;
+    transform: scale(1.1);
 }

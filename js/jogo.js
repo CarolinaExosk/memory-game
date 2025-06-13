@@ -17,6 +17,11 @@ const endGameMessageContainer = document.querySelector('#end-game-message-contai
 const btnRestart = document.querySelector('#btn-restart');
 const btnMainMenu = document.querySelector('#btn-main-menu');
 
+const rankingInputContainer = document.getElementById('ranking-input-container');
+const rankingNameInput = document.getElementById('ranking-name-input');
+const btnSaveScore = document.getElementById('btn-save-score');
+const rankingSavedMessage = document.getElementById('ranking-saved-message');
+
 const playerName = localStorage.getItem('player') || 'Convidado';
 const dificuldade = localStorage.getItem('gameDifficulty') || 'easy';
 const gameMode = localStorage.getItem('gameMode') || 'competitive';
@@ -98,7 +103,7 @@ const updateScore = (character) => {
     }
 };
 
-const endGame = async (didWin) => {
+const endGame = (didWin) => {
     if (isGameOver) return;
     isGameOver = true;
     clearInterval(loop);
@@ -111,10 +116,9 @@ const endGame = async (didWin) => {
 
     let finalMessageHTML = '';
     let podeSalvarRanking = false;
-    let finalTime = Number(timer.innerHTML);
 
     if (gameMode === 'cooperative') {
-        if(didWin) {
+        if (didWin) {
             finalMessageHTML = 'VITÓRIA!';
             podeSalvarRanking = true;
         } else {
@@ -137,46 +141,19 @@ const endGame = async (didWin) => {
     endGameOverlay.style.display = 'flex';
 
     if (podeSalvarRanking) {
-        const scoreData = {
-            jogador: playerName === 'Convidado' ? 'Anônimo' : playerName,
-            pontos: playerScore,
-            modoJogo: gameMode,
-            dificuldade: dificuldade,
-            pontosMaquina: machineScore,
-            tempoFinal: finalTime
-        };
-
-        try {
-            const response = await fetch('http://localhost:3000/pontuar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(scoreData),
-            });
-
-            if (response.ok) {
-                console.log('Pontuação salva com sucesso no ranking!');
-            } else {
-                const errorBody = await response.json();
-                console.error('Erro ao salvar pontuação:', response.status, errorBody.error);
-            }
-        } catch (error) {
-            console.error('Erro de rede ao tentar salvar a pontuação:', error);
-            alert('Não foi possível conectar ao servidor de ranking. Verifique se o servidor back-end está rodando.');
-        }
+        rankingInputContainer.style.display = 'block';
+    } else {
+        rankingInputContainer.style.display = 'none';
     }
 };
 
 const checkEndGame = () => {
     const disabledCards = document.querySelectorAll('.disabled-card.card');
 
-    console.log(`Verificando fim de jogo: Cartas desabilitadas: ${disabledCards.length}, Total de cartas: ${totalCardsInGame}`);
-
     if (disabledCards.length >= totalCardsInGame) {
-        console.log("Condição de fim de jogo ATINGIDA! Chamando endGame(true).");
         endGame(true);
     }
 };
-
 
 const applyTimePenalty = () => {
     if(isGameOver || gameMode !== 'cooperative') return;
@@ -199,24 +176,17 @@ const checkMatch = () => {
 
     if (allMatch) {
         updateScore(firstCharacter);
-
         revealedCards.forEach(card => {
             card.classList.add('disabled-card');
             card.classList.add('reveal-card');
         });
-
         revealedCards = [];
         checkEndGame();
         correctStreak++;
-
-        if (!hasMadeFirstMatch) {
-            hasMadeFirstMatch = true;
-        }
-
+        if (!hasMadeFirstMatch) hasMadeFirstMatch = true;
         if (correctStreak > 0 && correctStreak % 2 === 0) {
             if (hintsUsed > 0) {
                 hintsUsed--;
-                console.log("Você ganhou uma dica de volta!");
             }
         }
         if (!vezDoJogador) {
@@ -249,9 +219,7 @@ const checkMatch = () => {
 };
 
 const revealCard = ({ currentTarget }) => {
-    if (blockClick || isGameOver ||
-        currentTarget.classList.contains('reveal-card') ||
-        currentTarget.classList.contains('disabled-card')) {
+    if (blockClick || isGameOver || currentTarget.classList.contains('reveal-card') || currentTarget.classList.contains('disabled-card')) {
         return;
     }
     if (gameMode === 'competitive' && !vezDoJogador) return;
@@ -297,7 +265,6 @@ const createCard = (personagem) => {
 
 const setupUIForGameMode = () => {
     btnFreeze.style.display = 'none';
-
     if (gameMode === 'cooperative') {
         cooperativeScoreboard.style.display = 'block';
         competitiveScoreboard.style.display = 'none';
@@ -308,6 +275,7 @@ const setupUIForGameMode = () => {
         btnShuffle.style.display = 'inline-block';
     }
 };
+
 const loadGame = () => {
     isGameOver = false;
     playerScore = 0; machineScore = 0; sharedScore = 0;
@@ -329,36 +297,29 @@ const loadGame = () => {
     if (config.isSpecial) {
         const { quadras, trincas, pares } = config.composition;
         const totalUniqueCharsNeeded = quadras + trincas + pares;
-
         let finalCharacters = [specialChar];
-
         otherCharacters.sort(() => Math.random() - 0.5);
         const otherCharsToPick = otherCharacters.slice(0, totalUniqueCharsNeeded - 1);
         finalCharacters.push(...otherCharsToPick);
-
         finalCharacters.sort(() => Math.random() - 0.5);
-
         const assignCharsToGroups = (count, groupSize) => {
-            for (let i=0; i < count; i++) {
+            for (let i = 0; i < count; i++) {
                 const char = finalCharacters.pop();
                 if (!char) break;
                 groupSizes[char] = groupSize;
-                for (let j=0; j < groupSize; j++) {
+                for (let j = 0; j < groupSize; j++) {
                     cardsToShuffle.push(char);
                 }
             }
         };
-
         assignCharsToGroups(quadras, 4);
         assignCharsToGroups(trincas, 3);
         assignCharsToGroups(pares, 2);
-
     } else {
         otherCharacters.sort(() => Math.random() - 0.5);
         const numOtherCharsToSelect = config.totalCharacters - 1;
         const selectedOtherChars = otherCharacters.slice(0, numOtherCharsToSelect);
         const charactersForLevel = [specialChar, ...selectedOtherChars];
-
         charactersForLevel.forEach(character => {
             for (let i = 0; i < config.groupSize; i++) {
                 cardsToShuffle.push(character);
@@ -425,9 +386,7 @@ function registerMemory(card) {
 async function jogadaDaMaquina() {
     if (freezeState) {
         freezeState.turnsLeft--;
-        console.log(`Turno da IA. Congelamento restante: ${freezeState.turnsLeft} turnos.`);
         if (freezeState.turnsLeft <= 0) {
-            console.log("A carta foi descongelada.");
             freezeState.card.classList.remove('frozen');
             freezeState = null;
         }
@@ -481,12 +440,10 @@ async function jogadaDaMaquina() {
     for (const card of cardsToPlay) {
         if (card && !card.classList.contains('reveal-card')) {
             card.classList.add('reveal-card');
-
             const specialCardCharacter = '1695156937388z_800x800';
             if (gameMode === 'competitive' && card.getAttribute('data-character') === specialCardCharacter) {
                 card.classList.add('special-card-gold');
             }
-
             registerMemory(card);
             revealedCards.push(card);
             await delay(600);
@@ -496,9 +453,7 @@ async function jogadaDaMaquina() {
 }
 
 function activatePower(type) {
-    if (usedSpecial >= MAX_SPECIAL || poderesUsados[type]) {
-        return;
-    }
+    if (usedSpecial >= MAX_SPECIAL || poderesUsados[type]) return;
     usedSpecial++;
     poderesUsados[type] = true;
     switch(type) {
@@ -531,10 +486,8 @@ function triggerReveal() {
             let newTime;
             if (dificuldade === 'easy') {
                 newTime = currentTime - 30;
-                console.log(`Poder Revelar usado! Penalidade de 30 segundos no modo fácil.`);
             } else {
                 newTime = Math.floor(currentTime / 2);
-                console.log(`Poder Revelar usado! O tempo foi reduzido pela metade.`);
             }
             if (newTime < 0) newTime = 0;
             timer.innerHTML = newTime;
@@ -548,20 +501,16 @@ function triggerReveal() {
                 playerScore -= 30;
                 if (playerScore < 0) playerScore = 0;
                 playerScoreSpan.textContent = playerScore;
-                console.log('Poder Revelar usado! Penalidade de 30 pontos.');
             }
         }
-
         const cardsToHighlight = hiddenCards.filter(card => card.dataset.character === groupToReveal);
         const specialCardCharacter = '1695156937388z_800x800';
-
         cardsToHighlight.forEach(card => {
             if (card.getAttribute('data-character') !== specialCardCharacter) {
                 card.classList.add('highlight-reveal');
                 setTimeout(() => card.classList.remove('highlight-reveal'), 2000);
             }
         });
-
     } else {
         alert("Nenhum grupo completo disponível para revelar.");
         usedSpecial--;
@@ -571,7 +520,6 @@ function triggerReveal() {
 }
 
 function triggerShuffle() {
-    console.log("Embaralhando cartas...");
     const backCards = Array.from(document.querySelectorAll('.card:not(.reveal-card):not(.disabled-card)'));
     if (backCards.length < 2) {
         alert("Não há cartas suficientes para embaralhar.");
@@ -582,10 +530,7 @@ function triggerShuffle() {
     }
     let cardInfo = backCards.map(card => {
         const frontFace = card.querySelector('.front');
-        return {
-            character: card.getAttribute('data-character'),
-            image: frontFace.style.backgroundImage
-        };
+        return { character: card.getAttribute('data-character'), image: frontFace.style.backgroundImage };
     });
     for (let i = cardInfo.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -610,25 +555,17 @@ function triggerFreeze() {
         return;
     }
     const cardToFreeze = options[Math.floor(Math.random() * options.length)];
-    freezeState = {
-        card: cardToFreeze,
-        turnsLeft: 2
-    };
+    freezeState = { card: cardToFreeze, turnsLeft: 2 };
     freezeState.card.classList.add('frozen');
-    console.log(`Uma carta foi congelada por ${freezeState.turnsLeft} turnos da IA.`);
 }
 
 function useHint() {
-    if (hintsUsed >= maxHints) {
-        return;
-    }
+    if (hintsUsed >= maxHints) return;
     if (playerScore === 0 && machineScore === 0 && sharedScore === 0) {
         alert("A dica só pode ser usada após a primeira jogada.");
         return;
     }
-
     hintsUsed++;
-
     if (gameMode === 'cooperative') {
         applyTimePenalty();
     } else {
@@ -636,12 +573,9 @@ function useHint() {
             playerScore -= 20;
             if (playerScore < 0) playerScore = 0;
             playerScoreSpan.textContent = playerScore;
-            console.log('Dica usada! Penalidade de 20 pontos.');
         }
     }
-
     atualizarEstadoBotoes();
-
     const hidden = Array.from(document.querySelectorAll('.card:not(.reveal-card):not(.disabled-card)'));
     const sample = hidden.sort(() => 0.5 - Math.random()).slice(0, 2);
     if(sample.length > 0) {
@@ -655,6 +589,9 @@ function useHint() {
 }
 
 window.onload = () => {
+    // Esconde o formulário de ranking por padrão ao carregar a página
+    rankingInputContainer.style.display = 'none';
+
     if(spanPlayer) {
         spanPlayer.textContent = playerName;
     }
@@ -668,6 +605,49 @@ window.onload = () => {
 
     btnMainMenu.addEventListener('click', () => {
         window.location.href = '../index.html';
+    });
+
+    btnSaveScore.addEventListener('click', async () => {
+        const finalTime = Number(timer.innerHTML);
+        const playerNameForRanking = rankingNameInput.value.trim();
+
+        if (playerNameForRanking.length < 3) {
+            alert('Por favor, digite um nome com pelo menos 3 caracteres.');
+            return;
+        }
+
+        btnSaveScore.disabled = true;
+        rankingNameInput.disabled = true;
+
+        const scoreData = {
+            jogador: playerNameForRanking,
+            pontos: playerScore,
+            modo_jogo: gameMode,
+            dificuldade_jogo: dificuldade,
+            pontos_maquina: machineScore,
+            tempo_final: finalTime
+        };
+
+        try {
+            const response = await fetch('http://localhost:3000/pontuar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(scoreData),
+            });
+
+            if (response.ok) {
+                rankingSavedMessage.style.display = 'block';
+            } else {
+                const errorBody = await response.json();
+                alert(`Erro ao salvar: ${errorBody.error}`);
+                btnSaveScore.disabled = false;
+                rankingNameInput.disabled = false;
+            }
+        } catch (error) {
+            alert('Não foi possível conectar ao servidor de ranking.');
+            btnSaveScore.disabled = false;
+            rankingNameInput.disabled = false;
+        }
     });
 
     loadGame();

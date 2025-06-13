@@ -1,4 +1,5 @@
-# 🧠 Memory Fantasy
+# 🧠 Memory Fantasy 
+  ⚔️ Link para acesso: https://memory-game-puce-mu.vercel.app ⚔️
 
 *Memory Fantasy* é um jogo da memória temático com ambientação fantástica, desenvolvido como projeto da disciplina de Paradigmas da Computação, lecionada pelo professor Janderson Jason, utilizando *JavaScript, **HTML* e *CSS. O jogador pode escolher entre os modos **Competitivo* (contra a IA "Ghost") ou *Cooperativo*, com diferentes níveis de dificuldade e poderes especiais.
 

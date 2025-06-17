@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const rankingOverlay = document.getElementById('ranking-overlay');
     const listaRanking = document.getElementById('lista-ranking');
 
+    const API_BASE_URL = 'https://memory-game-production-403e.up.railway.app';
+
     const selections = {
         mode: null,
         difficulty: null
@@ -91,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             listaRanking.innerHTML = '<li style="text-align: center; color: #886c5c;">Carregando ranking...</li>';
             try {
-                const response = await fetch('http://localhost:3000/ranking');
+                const response = await fetch(`${API_BASE_URL}/ranking`);
 
                 listaRanking.innerHTML = '';
 
@@ -126,13 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (closeRankingBtn && rankingOverlay) {
         closeRankingBtn.addEventListener('click', () => {
-
             rankingOverlay.classList.remove('show');
         });
     }
 
     window.addEventListener('click', (event) => {
-
         if (!event.target.matches('.dropdown__btn')) {
             document.querySelectorAll('.dropdown__content').forEach(content => {
                 content.classList.remove('show');

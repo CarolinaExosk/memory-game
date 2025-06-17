@@ -22,6 +22,8 @@ const rankingNameInput = document.getElementById('ranking-name-input');
 const btnSaveScore = document.getElementById('btn-save-score');
 const rankingSavedMessage = document.getElementById('ranking-saved-message');
 
+const API_BASE_URL = 'https://memory-game-production-403e.up.railway.app';
+
 const playerName = localStorage.getItem('player') || 'Convidado';
 const dificuldade = localStorage.getItem('gameDifficulty') || 'easy';
 const gameMode = localStorage.getItem('gameMode') || 'competitive';
@@ -589,7 +591,6 @@ function useHint() {
 }
 
 window.onload = () => {
-    // Esconde o formulário de ranking por padrão ao carregar a página
     rankingInputContainer.style.display = 'none';
 
     if(spanPlayer) {
@@ -629,7 +630,7 @@ window.onload = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:3000/pontuar', {
+            const response = await fetch(`${API_BASE_URL}/pontuar`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(scoreData),

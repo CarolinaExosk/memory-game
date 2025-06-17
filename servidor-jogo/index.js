@@ -9,11 +9,11 @@ app.use(cors());
 app.use(express.json());
 
 /*const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'jogo_memoria',
-    password: '28181177',
-    port: 5432,
+user: 'postgres',
+host: 'localhost',
+database: 'jogo_memoria',
+password: '28181177',
+port: 5432,
 }); */
 
 const pool = new Pool({
@@ -38,8 +38,9 @@ app.post('/pontuar', async (req, res) => {
         const query = `
             INSERT INTO pontuacoes (jogador, pontos, modo_jogo, dificuldade_jogo, pontos_maquina, tempo_final)
             VALUES ($1, $2, $3, $4, $5, $6)
+
                 RETURNING *;
-        `;
+`;
 
         const values = [jogador, pontos, modo_jogo, dificuldade_jogo, pontos_maquina, tempo_final];
         const result = await pool.query(query, values);
@@ -49,23 +50,31 @@ app.post('/pontuar', async (req, res) => {
         console.error('Erro ao salvar pontuação:', err);
         res.status(500).json({ error: err.message });
     }
+
 });
 
 app.get('/ranking', async (req, res) => {
+
     try {
         const result = await pool.query(
             `SELECT jogador, pontos, modo_jogo, dificuldade_jogo, pontos_maquina, tempo_final, data
              FROM pontuacoes
              ORDER BY pontos DESC, data ASC
+
                  LIMIT 10;`
+
         );
+
         res.json(result.rows);
+
     } catch (err) {
         console.error('Erro ao obter ranking:', err);
         res.status(500).json({ error: err.message });
     }
+
 });
 
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);
+
 });

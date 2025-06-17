@@ -3,17 +3,28 @@ const cors = require('cors');
 const { Pool } = require('pg');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 
-const pool = new Pool({
+/*const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'jogo_memoria',
     password: '28181177',
     port: 5432,
+}); */
+
+const pool = new Pool({
+    user: process.env.PGUSER,
+    host: process.env.PGHOST,
+    database: process.env.PGDATABASE,
+    password: process.env.PGPASSWORD,
+    port: process.env.PGPORT,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 app.post('/pontuar', async (req, res) => {

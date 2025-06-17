@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const form = document.querySelector('.login-form');
-    const playButton = form.querySelector('.login__btn[type="submit"]'); // Seletor mais específico
+    const playButton = form.querySelector('.login__btn[type="submit"]');
     const dropdownButtons = document.querySelectorAll('.dropdown__btn');
 
     const openRulesBtn = document.getElementById('open-rules-btn');
@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const rulesOverlay = document.getElementById('rules-overlay');
 
     const openRankingBtn = document.getElementById('btn-mostrar-ranking');
-    const closeRankingBtn = document.getElementById('close-ranking-btn'); // ID corrigido
-    const rankingOverlay = document.getElementById('ranking-overlay');     // ID corrigido
+    const closeRankingBtn = document.getElementById('close-ranking-btn');
+    const rankingOverlay = document.getElementById('ranking-overlay');
     const listaRanking = document.getElementById('lista-ranking');
 
     const selections = {
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('Erro ao carregar ranking:', response.status, errorBody.error);
                 }
             } catch (error) {
-                listaRanking.innerHTML = '<li style="text-align: center; color: #8a0303;">Não foi possível conectar ao servidor do ranking. Verifique se o back-end está rodando.</li>';
+                listaRanking.innerHTML = '<li style="text-align: center; color: #8a0303;">Não foi possível conectar ao servidor do ranking.</li>';
                 console.error('Erro de rede ao carregar ranking:', error);
             }
         });
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener('click', (event) => {
-        // Fecha os dropdowns
+
         if (!event.target.matches('.dropdown__btn')) {
             document.querySelectorAll('.dropdown__content').forEach(content => {
                 content.classList.remove('show');

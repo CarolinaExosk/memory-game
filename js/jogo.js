@@ -54,6 +54,7 @@ const personagens = [
     'unicorn', 'cthulhu'
 ];
 
+
 const difficultySettings = {
     easy: { groupSize: 2, totalCharacters: 12 },
     medium: { groupSize: 3, totalCharacters: 8 },
@@ -74,6 +75,45 @@ let freezeState = null;
 let poderesUsados = { reveal: false, shuffle: false, freeze: false };
 let hasMadeFirstMatch = false;
 
+document.addEventListener('DOMContentLoaded', () => {
+    const backgroundMusic = document.getElementById('bg-music');
+    const muteButton = document.getElementById('btn-mute');
+    const muteIcon = muteButton.querySelector('i');
+
+    const startMusic = () => {
+        const promise = backgroundMusic.play();
+        if (promise !== undefined) {
+            promise.catch(error => {
+                console.log("Autoplay bloqueado. A música começará quando o usuário interagir.");
+                document.body.addEventListener('click', startMusic, { once: true });
+            });
+        }
+    };
+
+    backgroundMusic.volume = 0.5;
+    backgroundMusic.muted = false;
+    muteIcon.className = 'fa-solid fa-volume-high';
+    muteButton.classList.remove('muted-state');
+
+    startMusic();
+
+    muteButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+
+        backgroundMusic.muted = !backgroundMusic.muted;
+
+        if (backgroundMusic.muted) {
+            muteIcon.className = 'fa-solid fa-volume-mute';
+            muteButton.classList.add('muted-state');
+        } else {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+            }
+            muteIcon.className = 'fa-solid fa-volume-high';
+            muteButton.classList.remove('muted-state');
+        }
+    });
+});
 
 function atualizarEstadoBotoes() {
     const jogadorPodeAgir = vezDoJogador && !blockClick;
@@ -520,7 +560,6 @@ function triggerReveal() {
         atualizarEstadoBotoes();
     }
 }
-
 function triggerShuffle() {
     const backCards = Array.from(document.querySelectorAll('.card:not(.reveal-card):not(.disabled-card)'));
     if (backCards.length < 2) {
@@ -620,12 +659,20 @@ window.onload = () => {
         btnSaveScore.disabled = true;
         rankingNameInput.disabled = true;
 
+        let finalPlayerScore = playerScore;
+        let finalMachineScore = machineScore;
+
+        if (gameMode === 'cooperative') {
+            finalPlayerScore = sharedScore;
+            finalMachineScore = 0;
+        }
+
         const scoreData = {
             jogador: playerNameForRanking,
-            pontos: playerScore,
+            pontos: finalPlayerScore,
             modo_jogo: gameMode,
             dificuldade_jogo: dificuldade,
-            pontos_maquina: machineScore,
+            pontos_maquina: finalMachineScore,
             tempo_final: finalTime
         };
 

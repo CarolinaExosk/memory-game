@@ -1,5 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    const loginMusic = document.getElementById('login-music');
+    const muteButtonLogin = document.getElementById('btn-mute-login');
+
+    if (loginMusic && muteButtonLogin) {
+        const muteIconLogin = muteButtonLogin.querySelector('i');
+
+        const startLoginMusic = () => {
+            const promise = loginMusic.play();
+            if (promise !== undefined) {
+                promise.catch(error => {
+                    console.log("A música de login foi bloqueada pelo navegador. Clique na tela para iniciar.");
+                    document.body.addEventListener('click', startLoginMusic, { once: true });
+                });
+            }
+        };
+
+        loginMusic.volume = 0.4;
+        startLoginMusic();
+
+        muteButtonLogin.addEventListener('click', (event) => {
+            event.stopPropagation();
+            loginMusic.muted = !loginMusic.muted;
+            if (loginMusic.muted) {
+                muteIconLogin.className = 'fa-solid fa-volume-mute';
+                muteButtonLogin.classList.add('muted-state');
+            } else {
+                if (loginMusic.paused) {
+                    loginMusic.play();
+                }
+                muteIconLogin.className = 'fa-solid fa-volume-high';
+                muteButtonLogin.classList.remove('muted-state');
+            }
+        });
+    }
+
     const form = document.querySelector('.login-form');
     const playButton = form.querySelector('.login__btn[type="submit"]');
     const dropdownButtons = document.querySelectorAll('.dropdown__btn');
@@ -11,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const openRankingBtn = document.getElementById('btn-mostrar-ranking');
     const closeRankingBtn = document.getElementById('close-ranking-btn');
     const rankingOverlay = document.getElementById('ranking-overlay');
-    const listaRanking = document.getElementById('lista-ranking');
+    const rankingContainer = document.getElementById('lista-ranking');
 
     const API_BASE_URL = 'https://memory-game-production-403e.up.railway.app';
 
@@ -90,37 +125,99 @@ document.addEventListener('DOMContentLoaded', () => {
     if (openRankingBtn && rankingOverlay) {
         openRankingBtn.addEventListener('click', async () => {
             rankingOverlay.classList.add('show');
-
-            listaRanking.innerHTML = '<li style="text-align: center; color: #886c5c;">Carregando ranking...</li>';
+            rankingContainer.innerHTML = '<li style="text-align: center; color: #886c5c;">Carregando ranking...</li>';
             try {
                 const response = await fetch(`${API_BASE_URL}/ranking`);
 
-                listaRanking.innerHTML = '';
-
                 if (response.ok) {
                     const rankingData = await response.json();
+                    rankingContainer.innerHTML = '';
 
                     if (rankingData.length === 0) {
-                        listaRanking.innerHTML = '<li style="text-align: center; color: #886c5c;">Nenhuma pontuação registrada ainda. Jogue para aparecer aqui!</li>';
-                    } else {
-                        rankingData.forEach((entry, index) => {
-                            const listItem = document.createElement('li');
-                            const dataFormatada = new Date(entry.data).toLocaleDateString('pt-BR', {
-                                year: 'numeric', month: '2-digit', day: '2-digit',
-                                hour: '2-digit', minute: '2-digit'
-                            });
-                            listItem.innerHTML = `<span>${index + 1}. ${entry.jogador} (${entry.modo_jogo} / ${entry.dificuldade_jogo})</span>` +
-                                `<span>Pontos: Você ${entry.pontos} / IA ${entry.pontos_maquina}</span>`;
-                            listaRanking.appendChild(listItem);
-                        });
+                        rankingContainer.innerHTML = '<li style="text-align: center; color: #886c5c;">Nenhuma pontuação registrada ainda. Jogue para aparecer aqui!</li>';
+                        return;
                     }
+
+                    const competitiveData = rankingData.filter(e => e.modo_jogo === 'competitive');
+                    const cooperativeData = rankingData.filter(e => e.modo_jogo === 'cooperative');
+
+                    competitiveData.sort((a, b) => b.pontos - a.pontos);
+                    cooperativeData.sort((a, b) => {
+                        if (a.tempo_final === null) return 1;
+                        if (b.tempo_final === null) return -1;
+                        return a.tempo_final - b.tempo_final;
+                    });
+
+                    const formatarTempo = (segundosTotais) => {
+                        if (segundosTotais === undefined || segundosTotais === null) return '';
+                        const minutos = Math.floor(segundosTotais / 60);
+                        const segundos = segundosTotais % 60;
+                        return `${minutos}:${segundos.toString().padStart(2, '0')}`;
+                    };
+
+                    const twoColumnsContainer = document.createElement('div');
+                    twoColumnsContainer.style.display = 'flex';
+                    twoColumnsContainer.style.justifyContent = 'space-between';
+                    twoColumnsContainer.style.gap = '20px';
+                    twoColumnsContainer.style.flexWrap = 'wrap';
+
+                    const createRankingList = (title, data, mode) => {
+                        const column = document.createElement('div');
+                        column.style.flex = '1';
+                        column.style.minWidth = '250px';
+
+                        const a_title = document.createElement('h3');
+                        a_title.textContent = title;
+                        a_title.classList.add('ranking-column-title');
+
+                        const list = document.createElement('ul');
+                        list.style.listStyle = 'none';
+                        list.style.padding = '0';
+
+                        if (data.length === 0) {
+                            const emptyItem = document.createElement('li');
+                            emptyItem.textContent = 'Nenhum registro.';
+                            emptyItem.style.textAlign = 'center';
+                            emptyItem.style.color = '#886c5c';
+                            list.appendChild(emptyItem);
+                        } else {
+                            data.forEach((entry, index) => {
+                                const listItem = document.createElement('li');
+                                const playerInfo = `<span>${index + 1}. ${entry.jogador} (${entry.dificuldade_jogo})</span>`;
+
+                                let scoreInfo = '';
+                                if (mode === 'competitive') {
+                                    scoreInfo = `<span>Pontos: ${entry.pontos} | IA: ${entry.pontos_maquina}</span>`;
+                                } else {
+                                    const textoTempo = formatarTempo(entry.tempo_final) ? ` | Tempo: ${formatarTempo(entry.tempo_final)}` : '';
+                                    scoreInfo = `<span>Grupos: ${entry.pontos}${textoTempo}</span>`;
+                                }
+
+                                listItem.innerHTML = playerInfo + scoreInfo;
+                                list.appendChild(listItem);
+                            });
+                        }
+
+                        column.appendChild(a_title);
+                        column.appendChild(list);
+                        return column;
+                    };
+
+                    const competitiveColumn = createRankingList('Competitivo', competitiveData, 'competitive');
+                    const cooperativeColumn = createRankingList('Cooperativo', cooperativeData, 'cooperative');
+
+                    twoColumnsContainer.appendChild(competitiveColumn);
+                    twoColumnsContainer.appendChild(cooperativeColumn);
+
+                    rankingContainer.appendChild(twoColumnsContainer);
+
                 } else {
                     const errorBody = await response.json();
-                    listaRanking.innerHTML = `<li style="text-align: center; color: #8a0303;">Erro ao carregar ranking: ${errorBody.error || response.statusText}</li>`;
+                    rankingContainer.innerHTML = `<li style="text-align: center; color: #8a0303;">Erro ao carregar ranking: ${errorBody.error || response.statusText}</li>`;
                     console.error('Erro ao carregar ranking:', response.status, errorBody.error);
                 }
             } catch (error) {
-                listaRanking.innerHTML = '<li style="text-align: center; color: #8a0303;">Não foi possível conectar ao servidor do ranking.</li>';
+                rankingContainer.innerHTML = '<li style="text-align: center; color: #8a0303;">Não foi possível conectar ao servidor do ranking.</li>';
                 console.error('Erro de rede ao carregar ranking:', error);
             }
         });

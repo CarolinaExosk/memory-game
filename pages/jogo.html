@@ -2,28 +2,32 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Memory Fantasy</title>
 
     <link rel="stylesheet" href="../css/reset.css" />
     <link rel="stylesheet" href="../css/jogo.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Metamorphous&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 <video autoplay muted loop id="bg-video">
     <source src="../imagens/videopagjogo.mp4" type="video/mp4">
 </video>
+<audio id="bg-music" src="../imagens/Pafund%20-%20Mysteries%20of%20an%20Ancient%20Church.mp3" loop></audio>
 <div class="overlay"></div>
 
 <div class="game-container">
     <header class="game-header">
         <h1 class="game-title">Memory Game</h1>
+        <button id="btn-mute"><i class="fa-solid fa-volume-high"></i></button>
         <span><span class="tempo-label">Tempo:</span> <span class="timer">00</span></span>
     </header>
-</div>
 
-<div class="score-board">
+    <div class="grid">
+    </div>
+</div> <div class="score-board">
     <div id="competitive-score" style="display: none;">
         <span>Sua Pontuação: <span id="player-score">0</span></span>
         <span> | </span>
@@ -39,9 +43,6 @@
     <button id="btn-reveal">Revelar</button>
     <button id="btn-shuffle">Embaralhar</button>
     <button id="btn-freeze">Congelar</button>
-</div>
-
-<div class="grid">
 </div>
 
 <div id="end-game-overlay" class="end-game-overlay-container">

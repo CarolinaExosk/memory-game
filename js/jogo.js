@@ -54,7 +54,6 @@ const personagens = [
     'unicorn', 'cthulhu'
 ];
 
-
 const difficultySettings = {
     easy: { groupSize: 2, totalCharacters: 12 },
     medium: { groupSize: 3, totalCharacters: 8 },

@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rankingOverlay = document.getElementById('ranking-overlay');
     const rankingContainer = document.getElementById('lista-ranking');
 
-    const API_BASE_URL = 'https://memory-game-1n9v.onrender.com';
+    const API_BASE_URL = 'https://memory-game-2e9y.onrender.com';
 
     const selections = {
         mode: null,

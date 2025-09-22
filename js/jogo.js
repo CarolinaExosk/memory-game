@@ -22,7 +22,7 @@ const rankingNameInput = document.getElementById('ranking-name-input');
 const btnSaveScore = document.getElementById('btn-save-score');
 const rankingSavedMessage = document.getElementById('ranking-saved-message');
 
-const API_BASE_URL = 'https://memory-game-production-403e.up.railway.app';
+const API_BASE_URL = 'https://memory-game-2e9y.onrender.com';
 
 const playerName = localStorage.getItem('player') || 'Convidado';
 const dificuldade = localStorage.getItem('gameDifficulty') || 'easy';

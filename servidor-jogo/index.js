@@ -6,7 +6,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const corsOptions = {
-    origin: 'https://memory-game-puna-mu.vercel.app',
+    origin: 'https://memory-game-puce-mu.vercel.app',
     optionsSuccessStatus: 200
 };
 

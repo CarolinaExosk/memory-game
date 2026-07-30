@@ -10,7 +10,7 @@ An adaptive AI opponent with limited memory of revealed card positions
 A ranking system storing player name, mode, and difficulty, backed by a local server
 Dark-fantasy visual theme with background video and mobile responsiveness
 ## Provided material
-None — self-directed course assignment, no client-supplied assets.
+None, self-directed course assignment, no client-supplied assets.
 ## Deliverables
 Full source code: HTML, CSS, JS, and backend server files (.html, .css, .js)
 Live playable build (deployed link)

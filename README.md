@@ -1,5 +1,6 @@
 #  ⚔️ Memory Fantasy ⚔️
-Build a fantasy-themed memory-matching card game as a course project for a Computer Science programming paradigms class, playable solo or with a partner against an adaptive AI opponent ("Ghost"), with a persistent leaderboard.
+,
+Fantasy-themed memory-matching card game as a course project for a Computer Science programming paradigms class, playable solo or with a partner against an adaptive AI opponent ("Ghost"), with a persistent leaderboard.
 ### Requirements
 Two game modes: Competitive (player vs. AI) and Cooperative (player + AI vs. the clock)
 Four difficulty levels (Easy, Medium, Hard, Extreme), each changing how cards are grouped (pairs, triples, quads)

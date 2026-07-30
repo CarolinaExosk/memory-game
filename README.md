@@ -14,7 +14,7 @@ Dark-fantasy visual theme with background video and mobile responsiveness
 None, self-directed course assignment, no client-supplied assets.
 ## Deliverables
 Full source code: HTML, CSS, JS, and backend server files (.html, .css, .js)
-Live playable build (deployed link)
+Live playable build https://memory-game-puce-mu.vercel.app/
 Game assets (card images, UI icons, background video)
 
 
